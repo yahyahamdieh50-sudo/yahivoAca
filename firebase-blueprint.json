@@ -1,0 +1,77 @@
+{
+  "entities": {
+    "User": {
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "role": { "type": "string", "enum": ["student", "instructor", "admin"] },
+        "plan": { "type": "string", "enum": ["free", "basic", "pro"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "role", "plan"]
+    },
+    "Course": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "title": { "type": "string", "maxLength": 200 },
+        "category": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 2000 },
+        "level": { "type": "string", "maxLength": 50 },
+        "duration": { "type": "string", "maxLength": 50 },
+        "priceTier": { "type": "string", "enum": ["free", "basic", "pro"] },
+        "thumbnail": { "type": "string", "maxLength": 500 }
+      },
+      "required": ["id", "title", "category", "priceTier"]
+    },
+    "Enrollment": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "courseId": { "type": "string", "maxLength": 64 },
+        "progress": { "type": "number" },
+        "enrolledAt": { "type": "string" }
+      },
+      "required": ["id", "userId", "courseId"]
+    },
+    "Certificate": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "courseId": { "type": "string", "maxLength": 64 },
+        "verificationCode": { "type": "string", "maxLength": 64 },
+        "issuedAt": { "type": "string" },
+        "grade": { "type": "number" }
+      },
+      "required": ["id", "userId", "courseId", "verificationCode"]
+    }
+  },
+  "firestore": {
+    "paths": {
+      "/users/{userId}": {
+        "schema": "User",
+        "read": "request.auth != null && (request.auth.uid == userId || resource.data.role == 'admin')",
+        "write": "request.auth != null && request.auth.uid == userId"
+      },
+      "/courses/{courseId}": {
+        "schema": "Course",
+        "read": "true",
+        "write": "request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'"
+      },
+      "/enrollments/{enrollmentId}": {
+        "schema": "Enrollment",
+        "read": "request.auth != null && resource.data.userId == request.auth.uid",
+        "write": "request.auth != null && request.resource.data.userId == request.auth.uid"
+      },
+      "/certificates/{certId}": {
+        "schema": "Certificate",
+        "read": "true",
+        "write": "request.auth != null && request.resource.data.userId == request.auth.uid"
+      }
+    }
+  }
+}

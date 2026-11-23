@@ -1,0 +1,8 @@
+{
+  "name": "DAIKIN HVAC INSTALLATION ACADEMY",
+  "description": "Independent HVAC training platform dedicated to Daikin equipment installation, site preparation, inspection, testing, commissioning readiness and basic troubleshooting.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
