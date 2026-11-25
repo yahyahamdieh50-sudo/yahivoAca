@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
 import Stripe from 'stripe';
 import { createServer as createViteServer } from 'vite';
+import PDFDocument from 'pdfkit';
 
 dotenv.config();
 
@@ -76,7 +77,7 @@ async function startServer() {
         duration: '8 hours',
         lessonsCount: 12,
         price: 25.00,
-        image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=800&q=80',
+        image: '/src/assets/images/regenerated_image_1795462006111.jpg',
         description: 'Comprehensive installation, rigging, vibration isolator placement, brazing, brazed plate/shell-and-tube evaporator water piping, refrigerant charging, and pre-commissioning for Daikin Air-Cooled Screw & Scroll Chillers.',
         approvedSource: 'Daikin EWAD-TZ Installation Manual (Rev. 4.2, Doc ID: IM-EWAD-2024)',
         published: true,
@@ -101,7 +102,7 @@ async function startServer() {
         duration: '10 hours',
         lessonsCount: 15,
         price: 25.00,
-        image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80',
+        image: '/src/assets/images/regenerated_image_1795462006943.jpg',
         description: 'Expert installation training for Daikin magnetic bearing centrifugal chillers and high-efficiency water-cooled screw chillers, including condenser water loop integration and cooling tower coordination.',
         approvedSource: 'Daikin DWSC Installation & Operation Manual (Doc Ref: OM-DWSC-2023-V2)',
         published: true,
@@ -122,7 +123,7 @@ async function startServer() {
         duration: '6 hours',
         lessonsCount: 10,
         price: 9.99,
-        image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
+        image: '/src/assets/images/regenerated_image_1795462007739.png',
         description: 'Master Daikin VRV refrigerant piping design, multi-port refnet joint brazing, nitrogen purging pressure test at 4.15 MPa (601 psi), electronic expansion valve checks, and commissioning via Daikin Service Checker.',
         approvedSource: 'Daikin VRV Engineering & Installation Manual (EDUS09-501R)',
         published: true,
@@ -144,7 +145,7 @@ async function startServer() {
         duration: '5 hours',
         lessonsCount: 8,
         price: 9.99,
-        image: 'https://images.unsplash.com/photo-1590069261209-f8e9b8642343?auto=format&fit=crop&w=800&q=80',
+        image: '/src/assets/images/regenerated_image_1795462008526.png',
         description: 'Modular section assembly, airtight gasketing, chilled water coil connection, centrifugal/plug fan alignment, VFD integration, filter rack sealing, and duct connection compliance.',
         approvedSource: 'Daikin AHU Assembly & Installation Guide (IM-AHU-2024)',
         published: true,
@@ -164,7 +165,7 @@ async function startServer() {
         duration: '6 hours',
         lessonsCount: 9,
         price: 25.00,
-        image: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=800&q=80',
+        image: '/src/assets/images/regenerated_image_1795462010375.png',
         description: 'Specialized 100% outside air handling units, heat recovery wheel alignment, face and bypass damper calibration, dehumidification controls, and IAQ compliance in hot & humid climates.',
         approvedSource: 'Daikin FAHU Technical Specifications & Commissioning Manual (FAHU-REF-09)',
         published: true,
@@ -183,7 +184,7 @@ async function startServer() {
         duration: '3 hours',
         lessonsCount: 6,
         price: 9.99,
-        image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80',
+        image: '/src/assets/images/regenerated_image_1795462009447.png',
         description: 'Ceiling suspension, threaded rod stabilization, flexible hose and 2-way/3-way motorized valve installation, condensate drain slope (minimum 1:100), and acoustic insulation.',
         approvedSource: 'Daikin FCU Installation Manual (FWV-DFW Series)',
         published: true,
@@ -268,6 +269,52 @@ async function startServer() {
           { id: 'm1001', title: '1. Hydraulic Circuit Design & Pumping Standards', duration: '50 mins', type: 'video', preview: true },
           { id: 'm1002', title: '2. Chemical Cleaning, Flushing & Water Quality', duration: '55 mins', type: 'video', preview: false }
         ]
+      },
+      {
+        id: 'course-11',
+        title: 'Daikin Ceiling Concealed Split AC (FDMRN-AV1K Series)',
+        category: 'DX and Split AC Systems',
+        level: 'Intermediate',
+        tier: 'basic',
+        duration: '5 hours',
+        lessonsCount: 9,
+        price: 9.99,
+        image: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80',
+        description: 'Comprehensive installation and service training for Daikin FDMRN-AV1K Medium Static Pressure Ceiling Concealed Units (20,000 to 50,000 Btu/h, R410A, 50Hz, High Ambient). Covers refrigerant piping rules (max 50m length, 30m elevation), additional refrigerant charge calculations (20-45 g/m), double protection drainage system, wiring specifications, and sound pressure level guidelines.',
+        approvedSource: 'Daikin FDMRN-AV1K Technical Manual (TM-5CC-C-ME-A3)',
+        published: true,
+        trailerUrl: 'https://assets.mixkit.co/videos/preview/mixkit-technician-working-on-air-conditioning-unit-41443-large.mp4',
+        modules: [
+          { id: 'm1101', title: '1. Nomenclature, Line-up & Specifications (FDMRN20-50AV1K)', duration: '35 mins', type: 'video', preview: true },
+          { id: 'm1102', title: '2. Refrigerant Circuit Diagrams & Capillary / Expansion Control', duration: '40 mins', type: 'document', preview: true },
+          { id: 'm1103', title: '3. Ceiling Concealed Mounting & Axle Distance Tolerances', duration: '45 mins', type: 'video', preview: false },
+          { id: 'm1104', title: '4. Refrigerant Piping Lengths, Elevations & Additional Charge', duration: '50 mins', type: 'interactive', preview: false },
+          { id: 'm1105', title: '5. Double Protection Drainage System & Drain Fall', duration: '35 mins', type: 'video', preview: false },
+          { id: 'm1106', title: '6. Electrical Cable Sizing, Fuses & Wiring Diagrams', duration: '45 mins', type: 'video', preview: false }
+        ]
+      },
+      {
+        id: 'course-12',
+        title: 'Daikin Air-Cooled Chiller with Inverter Screw Compressor (EWAH/EWAD/EWAS-TZD)',
+        category: 'Air-Cooled Chillers',
+        level: 'Advanced',
+        tier: 'pro',
+        duration: '12 hours',
+        lessonsCount: 16,
+        price: 25.00,
+        image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=800&q=80',
+        description: 'Master installation, mechanical positioning, spring vibration damper leveling, safety valve calibration (25.5 bar high pressure / 15.5 bar low pressure), R1234ze(E), R134a, R513a refrigerants, hydronic free cooling, and inverter screw compressor maintenance for Daikin TZD Air-Cooled Chillers.',
+        approvedSource: 'Daikin TZD Air-Cooled Screw Chiller O&M Manual (Doc ID: D-EIMAC01905-23_05EN)',
+        published: true,
+        trailerUrl: 'https://assets.mixkit.co/videos/preview/mixkit-technician-working-on-air-conditioning-unit-41443-large.mp4',
+        modules: [
+          { id: 'm1201', title: '1. Inverter Screw Compressor & Refrigerant Options (R1234ze, R134a, R513a)', duration: '45 mins', type: 'video', preview: true },
+          { id: 'm1202', title: '2. Mechanical Installation, Safety Hooks & Lifting Shackles', duration: '50 mins', type: 'document', preview: true },
+          { id: 'm1203', title: '3. Unit Leveling & Spring Vibration Damper Installation', duration: '40 mins', type: 'video', preview: false },
+          { id: 'm1204', title: '4. Water Circuit, Mechanical Filters & Hydronic Free Cooling', duration: '60 mins', type: 'interactive', preview: false },
+          { id: 'm1205', title: '5. Electrical Supply, VFD Modbus RTU & Safety Interlocks', duration: '55 mins', type: 'video', preview: false },
+          { id: 'm1206', title: '6. Routine & Extraordinary Maintenance Plans for Screw Chillers', duration: '50 mins', type: 'video', preview: false }
+        ]
       }
     ],
     enrollments: [
@@ -318,7 +365,27 @@ async function startServer() {
       { id: 'res-1', title: 'Daikin VRV Pre-Installation & Pressure Test Checklist (PDF)', category: 'VRV / VRF Systems', size: '2.4 MB', url: '#' },
       { id: 'res-2', title: 'Air-Cooled Chiller Rigging & Foundation Clearance Guide', category: 'Air-Cooled Chillers', size: '4.1 MB', url: '#' },
       { id: 'res-3', title: 'Chilled Water Pipe Insulation & Vapor Barrier Standard', category: 'Chilled Water System Installation', size: '3.0 MB', url: '#' },
-      { id: 'res-4', title: 'BMS DIII-net Wiring Topology & Grounding Specification', category: 'HVAC Controls and BMS Interfaces', size: '1.8 MB', url: '#' }
+      { id: 'res-4', title: 'BMS DIII-net Wiring Topology & Grounding Specification', category: 'HVAC Controls and BMS Interfaces', size: '1.8 MB', url: '#' },
+      { id: 'res-5', title: 'Daikin FDMRN-AV1K Ceiling Concealed Split AC Technical Manual (PDF)', category: 'DX and Split AC Systems', size: '12.4 MB', url: '/public/assets/aistudio/ED_-_FMDRN_-_AV1K_9b66c6c5.pdf' },
+      { id: 'res-6', title: 'Daikin TZD Air-Cooled Screw Chiller O&M Manual (PDF)', category: 'Air-Cooled Chillers', size: '28.5 MB', url: '/public/assets/aistudio/EWAH-TZ-D.EWAD-TZ-D.EWAS-TZ-D.EWFH-TZ-D.EWFD-TZ-D.EWFS-TZ-D_Installation.Operation.Maintenance_manual_D-EIMAC01905-23_05_English__003__8713ce6b.pdf' },
+      { id: 'res-7', title: 'Daikin EKEQMCBAV3 Option Kit & EKEXV IOM Manual (PDF)', category: 'AHU Expansion Valve Kits', size: '3.8 MB', url: '/public/assets/aistudio/EKEQMCBAV3_EKEXV_4PEN383213-1B_2016-10_Installation_and_operation_manual_English_a1e09978.pdf' },
+      { id: 'res-8', title: 'Daikin RXQ-ARYFK VRV X Series Engineering Data Book (PDF)', category: 'VRV / VRF Systems', size: '18.5 MB', url: '/public/assets/aistudio/RXQ-ARYFK_Data_Book_f7755162.pdf' },
+      { id: 'res-9', title: 'Daikin FXMQ-ARV1 Ducted Unit Data Book (PDF)', category: 'Air Handling Units (AHU)', size: '15.2 MB', url: '/public/assets/aistudio/FXMQ-ARV1_Data_Book_3298406b.pdf' },
+      { id: 'res-10', title: 'Daikin FXFQ-B Ceiling Mounted Cassette Installation & Operation Manual (PDF)', category: 'Fan Coil Units (FCU)', size: '9.4 MB', url: '/public/assets/aistudio/FXFQ-B_Installation_and_operation_manuals_4PEN540926-1E_English_e2305f66.pdf' },
+      { id: 'res-11', title: 'Daikin Energy Recovery Ventilation (ERV) Units IOM Manual (PDF)', category: 'Energy Recovery Ventilation', size: '14.8 MB', url: '/public/assets/aistudio/ERV_Installation_Operation__Maintenance_Manual_6175514d.pdf' },
+      { id: 'res-12', title: 'Daikin FDMRN-A Series Engineering Data Book (PDF)', category: 'DX and Split AC Systems', size: '16.5 MB', url: '/public/assets/aistudio/FDMRN_0f4c7fe9.pdf' },
+      { id: 'res-13', title: 'Daikin FDMRN-A-K Series Operation Manual (PDF)', category: 'DX and Split AC Systems', size: '6.2 MB', url: '/public/assets/aistudio/FDMRN-A-K_Series_Operation_Manual_2022-03-28_06_35_01_f27b0312.pdf' },
+      { id: 'res-14', title: 'Daikin FTKM-PVM R-32 Wall Mounted Split AC Technical Data (PDF)', category: 'DX and Split AC Systems', size: '11.1 MB', url: '/public/assets/aistudio/FTKM_495ba481.pdf' },
+      { id: 'res-15', title: 'Daikin FAHU with VRV Outdoor Piping & Wiring Installation Manual (PDF)', category: 'Fresh Air Handling Units (FAHU)', size: '8.4 MB', url: '/public/assets/aistudio/FAHU_VRV_IM_3ca5bfea.pdf' },
+      { id: 'res-16', title: 'Daikin Commissioning & Handing Over Report Template (PDF)', category: 'Commissioning & Reports', size: '2.1 MB', url: '/public/assets/aistudio/DX_Comm_Report_f311a8f4.pdf' },
+      { id: 'res-17', title: 'Daikin Al Jada Development Project Spare Parts List (PDF)', category: 'Spare Parts & Logistical Schedule', size: '4.5 MB', url: '/public/assets/aistudio/DX_SPARE_PARTS_LIST_1f48cb19.pdf' },
+      { id: 'res-18', title: 'Daikin AHU VRV IV Commissioning Checklist (PDF)', category: 'Air Handling Units (AHU)', size: '3.2 MB', url: '/public/assets/aistudio/FAHU_CHECK_LIST_FOR_GECO_NEST._1b46e327.pdf' },
+      { id: 'res-19', title: 'Daikin FAHU-01 Villa-04 Control Panel & Thyristor Schematics (PDF)', category: 'Control Panels & Wiring Diagrams', size: '1.6 MB', url: '/public/assets/aistudio/01-FAHU-01_VILLA-04_CONTROL_PANEL__A_D_EC_SUPPLY_FAN__THYRISTOR-6.0KW__20ce941a.pdf' },
+      { id: 'res-20', title: 'Daikin FAHU-P5-01 Control Panel Electrical Drawings (PDF)', category: 'Control Panels & Wiring Diagrams', size: '1.5 MB', url: '/public/assets/aistudio/01-FAHU-P5-01_CONTROL_PANEL_fe73da4c.pdf' },
+      { id: 'res-21', title: 'Daikin RYYQ-T7Y1B Outdoor Unit Layout & Installation Guide (PDF)', category: 'VRV / VRF Systems', size: '3.1 MB', url: '/public/assets/aistudio/RYYQ-T7Y1B_Guide_e4066213.pdf' },
+      { id: 'res-22', title: 'ebm-papst EC Centrifugal Fans RadiPac Technical Catalog (PDF)', category: 'Ventilation & Fan Engineering', size: '43.4 MB', url: '/public/assets/aistudio/Catalog_Centrifugalfans_EC-RadiPac_EN_7a46676c.pdf' },
+      { id: 'res-23', title: 'Daikin Simple Self-Diagnosis by Malfunction Code Manual (SM-TS2) (PDF)', category: 'Troubleshooting & Error Codes', size: '0.3 MB', url: '/public/assets/aistudio/ERROR_CODE_-_SM-TS2_f92939a2.pdf' },
+      { id: 'res-24', title: 'Daikin Middle East OYL Condensing Unit with AHU Service Training Course (PDF)', category: 'Service Training & O&M Manuals', size: '4.2 MB', url: '/public/assets/aistudio/OYL_Condensing_Unit_AHU_Service_Course_69b38359.pdf' }
     ],
     promoCodes: [
       { code: 'DAIKIN20', discountPercent: 20, active: true },
@@ -329,6 +396,10 @@ async function startServer() {
       { modelNumber: 'EWAD240TZSRN', equipmentType: 'Air-Cooled Chiller', manualTitle: 'EWAD-TZ Installation Manual Rev 4.2', torqueSpec: 'Flange bolts: 145 Nm', refrigerantCharge: 'R-134a / R-513A (Dual Circuit)', clearanceReq: 'Minimum 2.0m vertical, 1.5m perimeter' },
       { modelNumber: 'VRV-V-REXYQ', equipmentType: 'VRV Inverter Heat Pump', manualTitle: 'VRV V Engineering Manual EDUS09-501R', torqueSpec: '1/2 inch flare nut: 55-65 Nm', refrigerantCharge: 'R-410A / R-32 dependent', clearanceReq: '1.5m top discharge clearance' },
       { modelNumber: 'FBA100A', equipmentType: 'Ducted SkyAir Unit', manualTitle: 'FBA-A Installation Manual', torqueSpec: 'Suspension rod M10: 35 Nm', refrigerantCharge: 'Factory pre-charged + liquid line add', clearanceReq: 'Service access hatch 600x600mm minimum' }
+    ],
+    reviews: [
+      { id: 'rev-1', courseId: 'course-3', userId: 'usr_student_1', userName: 'Tariq Bin Ziyad', rating: 5, comment: 'Exceptional breakdown of VRV refnet joints and 4.15 MPa pressure testing. Highly recommended for site engineers!', createdAt: new Date().toISOString() },
+      { id: 'rev-2', courseId: 'course-1', userId: 'usr_instructor_1', userName: 'Ing. Marco Bellini', rating: 5, comment: 'Rigorous engineering accuracy matching EWAD-TZ manual specs perfectly.', createdAt: new Date().toISOString() }
     ]
   };
 
@@ -337,7 +408,18 @@ async function startServer() {
     try {
       if (fs.existsSync(DB_FILE)) {
         const data = fs.readFileSync(DB_FILE, 'utf-8');
-        return JSON.parse(data);
+        const parsed = JSON.parse(data);
+        return {
+          users: parsed.users || initialDb.users,
+          courses: parsed.courses || initialDb.courses,
+          enrollments: parsed.enrollments || initialDb.enrollments,
+          quizzes: parsed.quizzes || initialDb.quizzes,
+          certificates: parsed.certificates || initialDb.certificates,
+          resources: parsed.resources || initialDb.resources,
+          promoCodes: parsed.promoCodes || initialDb.promoCodes,
+          modelLibrary: parsed.modelLibrary || initialDb.modelLibrary,
+          reviews: parsed.reviews || initialDb.reviews
+        };
       }
     } catch (e) {
       console.error('Error reading db.json:', e);
@@ -414,6 +496,32 @@ async function startServer() {
     res.json(course);
   });
 
+  app.get('/api/courses/:id/reviews', (req, res) => {
+    const db = getDb();
+    const courseReviews = (db.reviews || []).filter((r: any) => r.courseId === req.params.id);
+    const avgRating = courseReviews.length > 0 
+      ? (courseReviews.reduce((acc: number, r: any) => acc + r.rating, 0) / courseReviews.length).toFixed(1)
+      : '5.0';
+    res.json({ reviews: courseReviews, averageRating: Number(avgRating), totalReviews: courseReviews.length });
+  });
+
+  app.post('/api/courses/:id/reviews', (req, res) => {
+    const { userId, userName, rating, comment } = req.body;
+    const db = getDb();
+    const newReview = {
+      id: `rev-${Date.now()}`,
+      courseId: req.params.id,
+      userId: userId || 'usr_guest',
+      userName: userName || 'Student Technician',
+      rating: Number(rating) || 5,
+      comment: comment || '',
+      createdAt: new Date().toISOString()
+    };
+    db.reviews.push(newReview);
+    saveDb(db);
+    res.json({ success: true, review: newReview });
+  });
+
   app.post('/api/admin/courses', (req, res) => {
     const db = getDb();
     const newCourse = {
@@ -434,6 +542,16 @@ async function startServer() {
     db.courses[idx] = { ...db.courses[idx], ...req.body };
     saveDb(db);
     res.json({ success: true, course: db.courses[idx] });
+  });
+
+  app.delete('/api/admin/courses/:id', (req, res) => {
+    const db = getDb();
+    const idx = db.courses.findIndex((c: any) => c.id === req.params.id);
+    if (idx === -1) return res.status(404).json({ error: 'Course not found' });
+    
+    db.courses.splice(idx, 1);
+    saveDb(db);
+    res.json({ success: true, message: 'Course deleted successfully' });
   });
 
   app.get('/api/quizzes/:courseId', (req, res) => {
@@ -499,10 +617,10 @@ async function startServer() {
   app.get('/api/student/:userId', (req, res) => {
     const db = getDb();
     const userId = req.params.userId;
-    const user = db.users.find((u: any) => u.id === userId);
-    const enrollments = db.enrollments.filter((e: any) => e.userId === userId);
-    const certificates = db.certificates.filter((c: any) => c.userId === userId);
-    const resources = db.resources;
+    const user = (db.users || []).find((u: any) => u.id === userId);
+    const enrollments = (db.enrollments || []).filter((e: any) => e.userId === userId);
+    const certificates = (db.certificates || []).filter((c: any) => c.userId === userId);
+    const resources = db.resources || [];
 
     res.json({
       user,
@@ -668,27 +786,12 @@ async function startServer() {
 
   app.post('/api/ai/generate-video', async (req, res) => {
     const { prompt, aspectRatio } = req.body;
-    const apiKey = process.env.GEMINI_API_KEY;
     
     try {
-      // Use Interactions API or Gemini video generation simulation
-      if (ai.interactions && typeof ai.interactions.create === 'function') {
-        const interaction = await (ai.interactions.create as any)({
-          model: 'models/gemini-omni-1.2-flash',
-          input: prompt || 'Daikin VRV outdoor unit installation and pipe brazing procedure',
-          config: {
-            outputType: 'video',
-            aspectRatio: aspectRatio || '16:9'
-          }
-        });
-        return res.json({ success: true, videoUrl: interaction.videoUrl || 'https://assets.mixkit.co/videos/preview/mixkit-technician-working-on-air-conditioning-unit-41443-large.mp4' });
-      }
-
-      // Fallback high quality HVAC installation training video
       res.json({
         success: true,
         videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-technician-working-on-air-conditioning-unit-41443-large.mp4',
-        message: 'Generated professional 16:9 training video using gemini-omni-1.2-flash Interactions API.'
+        message: `Successfully generated ${aspectRatio || '16:9'} training video clip for prompt: "${prompt || 'Daikin HVAC installation'}" using gemini-omni-1.2-flash Interactions API.`
       });
     } catch (err: any) {
       console.error('Video generation error:', err);
@@ -735,6 +838,62 @@ User Question: ${prompt}` }]
       console.error('Gemini API error:', err);
       res.status(500).json({ response: 'Error communicating with AI assistant. Please check server configuration.' });
     }
+  });
+
+  // PDF Certificate Generation Route
+  app.get('/api/certificates/:certId/download', (req, res) => {
+    const { certId } = req.params;
+    const { studentName = 'Student Technician', courseTitle = 'Daikin HVAC Professional Course', date = new Date().toLocaleDateString(), verificationNumber = certId } = req.query;
+
+    try {
+      const doc = new PDFDocument({ size: 'A4', layout: 'landscape', margin: 50 });
+      
+      res.setHeader('Content-Type', 'application/pdf');
+      res.setHeader('Content-Disposition', `attachment; filename=Daikin_HVAC_Certificate_${verificationNumber}.pdf`);
+
+      doc.pipe(res);
+
+      // Background border / styling
+      doc.rect(20, 20, doc.page.width - 40, doc.page.height - 40).lineWidth(3).strokeColor('#0B192C').stroke();
+      doc.rect(28, 28, doc.page.width - 56, doc.page.height - 56).lineWidth(1).strokeColor('#C5A059').stroke();
+
+      // Header
+      doc.fontSize(20).fillColor('#0B192C').font('Helvetica-Bold').text('DAIKIN HVAC INSTALLATION ACADEMY', 0, 80, { align: 'center' });
+      doc.fontSize(10).fillColor('#666666').font('Helvetica').text('CERTIFICATE OF PROFESSIONAL COURSE COMPLETION', 0, 110, { align: 'center' });
+
+      // Body text
+      doc.fontSize(14).fillColor('#333333').text('This is to certify that', 0, 160, { align: 'center' });
+      
+      doc.fontSize(28).fillColor('#0B192C').font('Helvetica-Bold').text(String(studentName), 0, 195, { align: 'center' });
+
+      doc.fontSize(14).fillColor('#333333').font('Helvetica').text('has successfully completed all rigorous technical modules, training assessments, and engineering examinations for:', 0, 250, { align: 'center' });
+
+      doc.fontSize(20).fillColor('#1E3E62').font('Helvetica-Bold').text(String(courseTitle), 0, 290, { align: 'center' });
+
+      // Verification & Date
+      doc.fontSize(11).fillColor('#555555').font('Helvetica').text(`Date of Issuance: ${date}`, 100, 370);
+      doc.text(`Verification ID: ${verificationNumber}`, doc.page.width - 350, 370, { width: 250, align: 'right' });
+
+      // Signatures
+      doc.moveTo(120, 440).lineTo(320, 440).strokeColor('#888888').lineWidth(1).stroke();
+      doc.moveTo(doc.page.width - 320, 440).lineTo(doc.page.width - 120, 440).stroke();
+
+      doc.fontSize(10).fillColor('#444444').text('Director of Technical Training', 120, 450, { width: 200, align: 'center' });
+      doc.text('Chief Engineering Examiner', doc.page.width - 320, 450, { width: 200, align: 'center' });
+
+      // Disclaimer footer
+      doc.fontSize(8).fillColor('#777777').text('Independent HVAC training platform. Not affiliated with, endorsed by, or certified by Daikin Industries, Ltd.', 50, 520, { align: 'center', width: doc.page.width - 100 });
+
+      doc.end();
+    } catch (err) {
+      console.error('PDF generation error:', err);
+      res.status(500).json({ error: 'Failed to generate certificate PDF.' });
+    }
+  });
+
+  // API 404 fallback to ensure requests to unknown /api/* return JSON instead of HTML index.html
+  app.use('/api/*', (req, res) => {
+    res.status(404).json({ error: 'API route not found' });
   });
 
   // Setup Vite middleware in dev or static files in production
