@@ -1,0 +1,1398 @@
+{
+  "users": [
+    {
+      "id": "usr_admin_1",
+      "name": "Eng. Rashid Al-Maktoum",
+      "email": "admin@daikin-hvac-academy.com",
+      "role": "admin",
+      "subscriptionTier": "pro",
+      "subscriptionStatus": "active",
+      "createdAt": "2026-11-26T16:52:28.478Z"
+    },
+    {
+      "id": "usr_instructor_1",
+      "name": "Ing. Marco Bellini",
+      "email": "instructor@daikin-hvac-academy.com",
+      "role": "instructor",
+      "subscriptionTier": "pro",
+      "subscriptionStatus": "active",
+      "createdAt": "2026-11-26T16:52:28.478Z"
+    },
+    {
+      "id": "usr_student_1",
+      "name": "Tariq Bin Ziyad",
+      "email": "student@daikin-hvac-academy.com",
+      "role": "student",
+      "subscriptionTier": "free",
+      "subscriptionStatus": "inactive",
+      "createdAt": "2026-11-26T16:52:28.478Z"
+    }
+  ],
+  "courses": [
+    {
+      "id": "course-1",
+      "title": "Daikin Air-Cooled Chillers (EWAD-TZ / MZ)",
+      "category": "Air-Cooled Chillers",
+      "level": "Advanced",
+      "tier": "pro",
+      "duration": "8 hours",
+      "lessonsCount": 12,
+      "price": 25,
+      "image": "/src/assets/images/regenerated_image_1795462006111.jpg",
+      "description": "Comprehensive installation, rigging, vibration isolator placement, brazing, brazed plate/shell-and-tube evaporator water piping, refrigerant charging, and pre-commissioning for Daikin Air-Cooled Screw & Scroll Chillers.",
+      "approvedSource": "Daikin EWAD-TZ Installation Manual (Rev. 4.2, Doc ID: IM-EWAD-2024)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m1",
+          "title": "1. System Overview & Major Components",
+          "duration": "35 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m2",
+          "title": "2. Reading Approved Submittals & P&ID Diagrams",
+          "duration": "45 mins",
+          "type": "document",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m3",
+          "title": "3. Site Readiness & Structural Foundation Check",
+          "duration": "40 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m4",
+          "title": "4. Rigging, Lifting, and Positioning Tolerances",
+          "duration": "50 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m5",
+          "title": "5. Evaporator Water Piping & Flow Switch Wiring",
+          "duration": "60 mins",
+          "type": "interactive",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m6",
+          "title": "6. Refrigerant Circuit & Leak Testing Protocols",
+          "duration": "45 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m7",
+          "title": "7. Electrical Power & BMS Interlock Wiring",
+          "duration": "55 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m8",
+          "title": "8. Pre-Commissioning Tests and Oil Pressure Checks",
+          "duration": "50 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    },
+    {
+      "id": "course-2",
+      "title": "Daikin Water-Cooled Centrifugal & Screw Chillers",
+      "category": "Water-Cooled Chillers",
+      "level": "Advanced",
+      "tier": "pro",
+      "duration": "10 hours",
+      "lessonsCount": 15,
+      "price": 25,
+      "image": "/src/assets/images/regenerated_image_1795462006943.jpg",
+      "description": "Expert installation training for Daikin magnetic bearing centrifugal chillers and high-efficiency water-cooled screw chillers, including condenser water loop integration and cooling tower coordination.",
+      "approvedSource": "Daikin DWSC Installation & Operation Manual (Doc Ref: OM-DWSC-2023-V2)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m201",
+          "title": "1. Centrifugal & Magnetic Bearing Technology Overview",
+          "duration": "40 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m202",
+          "title": "2. Condenser & Evaporator Water Circuitry Standards",
+          "duration": "50 mins",
+          "type": "document",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m203",
+          "title": "3. Machine Room Ventilation & Safety Relief Venting",
+          "duration": "45 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m204",
+          "title": "4. Refrigerant Recovery and Evacuation Standards",
+          "duration": "60 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    },
+    {
+      "id": "course-3",
+      "title": "Daikin VRV / VRF Systems (VRV V / IV+ Series)",
+      "category": "VRV / VRF Systems",
+      "level": "Intermediate",
+      "tier": "basic",
+      "duration": "6 hours",
+      "lessonsCount": 10,
+      "price": 9.99,
+      "image": "/src/assets/images/regenerated_image_1795462007739.png",
+      "description": "Master Daikin VRV refrigerant piping design, multi-port refnet joint brazing, nitrogen purging pressure test at 4.15 MPa (601 psi), electronic expansion valve checks, and commissioning via Daikin Service Checker.",
+      "approvedSource": "Daikin VRV Engineering & Installation Manual (EDUS09-501R)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m301",
+          "title": "1. VRV Architecture & REFNET Piping Rules",
+          "duration": "45 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m302",
+          "title": "2. Nitrogen Purging & Brazing Best Practices",
+          "duration": "50 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m303",
+          "title": "3. Pressure Testing at 4.15 MPa (601 psi)",
+          "duration": "40 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m304",
+          "title": "4. Vacuum Dehydration Down to -755 mmHg (500 microns)",
+          "duration": "45 mins",
+          "type": "interactive",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m305",
+          "title": "5. Refrigerant Charge Calculation & Additional Charge Add",
+          "duration": "50 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    },
+    {
+      "id": "course-4",
+      "title": "Daikin Air Handling Units (AHU Modular & Custom)",
+      "category": "Air Handling Units (AHU)",
+      "level": "Intermediate",
+      "tier": "basic",
+      "duration": "5 hours",
+      "lessonsCount": 8,
+      "price": 9.99,
+      "image": "/src/assets/images/regenerated_image_1795462008526.png",
+      "description": "Modular section assembly, airtight gasketing, chilled water coil connection, centrifugal/plug fan alignment, VFD integration, filter rack sealing, and duct connection compliance.",
+      "approvedSource": "Daikin AHU Assembly & Installation Guide (IM-AHU-2024)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m401",
+          "title": "1. Modular Sectional Assembly & Gasketing",
+          "duration": "40 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m402",
+          "title": "2. Chilled Water & Steam Coil Pipings & Traps",
+          "duration": "50 mins",
+          "type": "document",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m403",
+          "title": "3. Fan Wheel Alignment & Belt Tensioning",
+          "duration": "45 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    },
+    {
+      "id": "course-5",
+      "title": "Daikin Fresh Air Handling Units (FAHU) & Heat Recovery",
+      "category": "Fresh Air Handling Units (FAHU)",
+      "level": "Advanced",
+      "tier": "pro",
+      "duration": "6 hours",
+      "lessonsCount": 9,
+      "price": 25,
+      "image": "/src/assets/images/regenerated_image_1795462010375.png",
+      "description": "Specialized 100% outside air handling units, heat recovery wheel alignment, face and bypass damper calibration, dehumidification controls, and IAQ compliance in hot & humid climates.",
+      "approvedSource": "Daikin FAHU Technical Specifications & Commissioning Manual (FAHU-REF-09)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m501",
+          "title": "1. 100% Outdoor Air Thermodynamics & Psychrometrics",
+          "duration": "45 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m502",
+          "title": "2. Rotary Heat Recovery Wheel Installation",
+          "duration": "50 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    },
+    {
+      "id": "course-6",
+      "title": "Daikin Fan Coil Units (FCU Concealed & Cassette)",
+      "category": "Fan Coil Units (FCU)",
+      "level": "Beginner",
+      "tier": "basic",
+      "duration": "3 hours",
+      "lessonsCount": 6,
+      "price": 9.99,
+      "image": "/src/assets/images/regenerated_image_1795462009447.png",
+      "description": "Ceiling suspension, threaded rod stabilization, flexible hose and 2-way/3-way motorized valve installation, condensate drain slope (minimum 1:100), and acoustic insulation.",
+      "approvedSource": "Daikin FCU Installation Manual (FWV-DFW Series)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m601",
+          "title": "1. Ceiling Suspension & Anti-Vibration Mountings",
+          "duration": "30 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m602",
+          "title": "2. Condensate Drain Piping & Trap Fall Verification",
+          "duration": "35 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    },
+    {
+      "id": "course-7",
+      "title": "Daikin DX Split & SkyAir Systems",
+      "category": "DX and Split AC Systems",
+      "level": "Beginner",
+      "tier": "basic",
+      "duration": "4 hours",
+      "lessonsCount": 7,
+      "price": 9.99,
+      "image": "https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80",
+      "description": "Wall-mounted and ducted SkyAir split unit installation, flare connection torque specs, liquid/suction insulation, communication wiring, and operating pressure verification.",
+      "approvedSource": "Daikin SkyAir Installation Manual (FBA-A / RZQS Series)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m701",
+          "title": "1. Indoor Unit Leveling & Wall Bracket Rigging",
+          "duration": "30 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m702",
+          "title": "2. Flare Connection Torque Calibration",
+          "duration": "40 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    },
+    {
+      "id": "course-8",
+      "title": "Daikin Packaged Rooftop AC Units",
+      "category": "Packaged AC Units",
+      "level": "Intermediate",
+      "tier": "basic",
+      "duration": "5 hours",
+      "lessonsCount": 8,
+      "price": 9.99,
+      "image": "https://images.unsplash.com/photo-1542013936693-894d1b66e5f6?auto=format&fit=crop&w=800&q=80",
+      "description": "Rooftop curb preparation, weatherproof duct collar sealing, condenser airflow clearances, high-ambient temperature operation (up to 52°C), and electrical disconnect positioning.",
+      "approvedSource": "Daikin Rooftop Packaged Unit Installation Manual (U-DT Series)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m801",
+          "title": "1. Roof Curb Installation & Waterproof Flashing",
+          "duration": "45 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m802",
+          "title": "2. High Ambient Condenser Airflow Management",
+          "duration": "40 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    },
+    {
+      "id": "course-9",
+      "title": "Daikin HVAC Controls & BMS Interfaces (Modbus, BACnet, LonWorks)",
+      "category": "HVAC Controls and BMS Interfaces",
+      "level": "Advanced",
+      "tier": "pro",
+      "duration": "7 hours",
+      "lessonsCount": 10,
+      "price": 25,
+      "image": "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80",
+      "description": "Daikin Intelligent Touch Manager (iTM), DIII-net wiring protocols, BACnet/IP and Modbus RTU gateway configuration, point mapping, and centralized scheduling.",
+      "approvedSource": "Daikin iTM & BMS Integration Engineering Guide (DMS502A51)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m901",
+          "title": "1. DIII-net Topology & Shielded Twisted Pair Wiring",
+          "duration": "45 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m902",
+          "title": "2. Intelligent Touch Manager (iTM) Commissioning",
+          "duration": "60 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    },
+    {
+      "id": "course-10",
+      "title": "Daikin Chilled Water System Installation & Hydraulic Balancing",
+      "category": "Chilled Water System Installation",
+      "level": "Advanced",
+      "tier": "pro",
+      "duration": "9 hours",
+      "lessonsCount": 14,
+      "price": 25,
+      "image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80",
+      "description": "Primary-secondary pumping arrangements, differential pressure bypass valves, pipe expansion loops, chemical flushing, water treatment, air purging, and static/dynamic hydraulic balancing.",
+      "approvedSource": "Daikin Chilled Water Piping Design & Hydraulic Manual (CHW-ENG-2023)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m1001",
+          "title": "1. Hydraulic Circuit Design & Pumping Standards",
+          "duration": "50 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m1002",
+          "title": "2. Chemical Cleaning, Flushing & Water Quality",
+          "duration": "55 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    },
+    {
+      "id": "course-11",
+      "title": "Daikin Ceiling Concealed Split AC (FDMRN-AV1K Series)",
+      "category": "DX and Split AC Systems",
+      "level": "Intermediate",
+      "tier": "basic",
+      "duration": "5 hours",
+      "lessonsCount": 9,
+      "price": 9.99,
+      "image": "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80",
+      "description": "Comprehensive installation and service training for Daikin FDMRN-AV1K Medium Static Pressure Ceiling Concealed Units (20,000 to 50,000 Btu/h, R410A, 50Hz, High Ambient). Covers refrigerant piping rules (max 50m length, 30m elevation), additional refrigerant charge calculations (20-45 g/m), double protection drainage system, wiring specifications, and sound pressure level guidelines.",
+      "approvedSource": "Daikin FDMRN-AV1K Technical Manual (TM-5CC-C-ME-A3)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m1101",
+          "title": "1. Nomenclature, Line-up & Specifications (FDMRN20-50AV1K)",
+          "duration": "35 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m1102",
+          "title": "2. Refrigerant Circuit Diagrams & Capillary / Expansion Control",
+          "duration": "40 mins",
+          "type": "document",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m1103",
+          "title": "3. Ceiling Concealed Mounting & Axle Distance Tolerances",
+          "duration": "45 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m1104",
+          "title": "4. Refrigerant Piping Lengths, Elevations & Additional Charge",
+          "duration": "50 mins",
+          "type": "interactive",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m1105",
+          "title": "5. Double Protection Drainage System & Drain Fall",
+          "duration": "35 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m1106",
+          "title": "6. Electrical Cable Sizing, Fuses & Wiring Diagrams",
+          "duration": "45 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    },
+    {
+      "id": "course-12",
+      "title": "Daikin Air-Cooled Chiller with Inverter Screw Compressor (EWAH/EWAD/EWAS-TZD)",
+      "category": "Air-Cooled Chillers",
+      "level": "Advanced",
+      "tier": "pro",
+      "duration": "12 hours",
+      "lessonsCount": 16,
+      "price": 25,
+      "image": "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=800&q=80",
+      "description": "Master installation, mechanical positioning, spring vibration damper leveling, safety valve calibration (25.5 bar high pressure / 15.5 bar low pressure), R1234ze(E), R134a, R513a refrigerants, hydronic free cooling, and inverter screw compressor maintenance for Daikin TZD Air-Cooled Chillers.",
+      "approvedSource": "Daikin TZD Air-Cooled Screw Chiller O&M Manual (Doc ID: D-EIMAC01905-23_05EN)",
+      "published": true,
+      "trailerUrl": "",
+      "modules": [
+        {
+          "id": "m1201",
+          "title": "1. Inverter Screw Compressor & Refrigerant Options (R1234ze, R134a, R513a)",
+          "duration": "45 mins",
+          "type": "video",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m1202",
+          "title": "2. Mechanical Installation, Safety Hooks & Lifting Shackles",
+          "duration": "50 mins",
+          "type": "document",
+          "preview": true,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m1203",
+          "title": "3. Unit Leveling & Spring Vibration Damper Installation",
+          "duration": "40 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m1204",
+          "title": "4. Water Circuit, Mechanical Filters & Hydronic Free Cooling",
+          "duration": "60 mins",
+          "type": "interactive",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m1205",
+          "title": "5. Electrical Supply, VFD Modbus RTU & Safety Interlocks",
+          "duration": "55 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        },
+        {
+          "id": "m1206",
+          "title": "6. Routine & Extraordinary Maintenance Plans for Screw Chillers",
+          "duration": "50 mins",
+          "type": "video",
+          "preview": false,
+          "videoId": null,
+          "videoUrl": ""
+        }
+      ],
+      "trailerVideoId": null
+    }
+  ],
+  "enrollments": [
+    {
+      "id": "enr-1",
+      "userId": "usr_student_1",
+      "courseId": "course-3",
+      "progress": 40,
+      "completedModules": [
+        "m301",
+        "m302"
+      ],
+      "enrolledAt": "2026-11-26T16:52:28.478Z"
+    }
+  ],
+  "quizzes": [
+    {
+      "id": "quiz-1",
+      "courseId": "course-3",
+      "title": "VRV Installation Final Assessment",
+      "questions": [
+        {
+          "id": "q1",
+          "question": "What is the standard required nitrogen pressure test holding value for Daikin VRV refrigerant piping?",
+          "options": [
+            "1.5 MPa (217 psi)",
+            "3.0 MPa (435 psi)",
+            "4.15 MPa (601 psi)",
+            "5.5 MPa (797 psi)"
+          ],
+          "correctIndex": 2,
+          "explanation": "Daikin engineering guidelines require a 3-stage pressure test reaching up to 4.15 MPa (601 psi) with nitrogen gas for 24 hours."
+        },
+        {
+          "id": "q2",
+          "question": "What is the target vacuum level for system dehydration before charging refrigerant in VRV systems?",
+          "options": [
+            "-100 mmHg (Atmospheric)",
+            "-500 mmHg",
+            "-755 mmHg (500 microns)",
+            "-760 mmHg absolute zero"
+          ],
+          "correctIndex": 2,
+          "explanation": "Vacuum must reach and hold -755 mmHg (500 microns or lower) to boil off moisture."
+        },
+        {
+          "id": "q3",
+          "question": "Which tool is officially utilized for Daikin VRV commissioning, error code diagnosis, and test running?",
+          "options": [
+            "Multimeter only",
+            "Daikin Service Checker / iTM",
+            "Standard manifold gauge set",
+            "Anemometer"
+          ],
+          "correctIndex": 1,
+          "explanation": "Daikin Service Checker software and hardware interface is required for deep diagnostics and commissioning."
+        }
+      ]
+    }
+  ],
+  "certificates": [
+    {
+      "id": "cert-101",
+      "userId": "usr_student_1",
+      "courseId": "course-6",
+      "courseTitle": "Daikin Fan Coil Units (FCU Concealed & Cassette)",
+      "verificationNumber": "DAIKIN-ACADEMY-9823-FCU",
+      "issuedAt": "2026-11-26T16:52:28.478Z",
+      "disclaimer": "Independent HVAC training platform. Not affiliated with, endorsed by, or certified by Daikin Industries, Ltd."
+    }
+  ],
+  "resources": [
+    {
+      "id": "res-1",
+      "title": "Daikin VRV Pre-Installation & Pressure Test Checklist (PDF)",
+      "category": "VRV / VRF Systems",
+      "size": "2.4 MB",
+      "url": "#"
+    },
+    {
+      "id": "res-2",
+      "title": "Air-Cooled Chiller Rigging & Foundation Clearance Guide",
+      "category": "Air-Cooled Chillers",
+      "size": "4.1 MB",
+      "url": "#"
+    },
+    {
+      "id": "res-3",
+      "title": "Chilled Water Pipe Insulation & Vapor Barrier Standard",
+      "category": "Chilled Water System Installation",
+      "size": "3.0 MB",
+      "url": "#"
+    },
+    {
+      "id": "res-4",
+      "title": "BMS DIII-net Wiring Topology & Grounding Specification",
+      "category": "HVAC Controls and BMS Interfaces",
+      "size": "1.8 MB",
+      "url": "#"
+    },
+    {
+      "id": "res-5",
+      "title": "Daikin FDMRN-AV1K Ceiling Concealed Split AC Technical Manual (PDF)",
+      "category": "DX and Split AC Systems",
+      "size": "12.4 MB",
+      "url": "/public/assets/aistudio/ED_-_FMDRN_-_AV1K_9b66c6c5.pdf"
+    },
+    {
+      "id": "res-6",
+      "title": "Daikin TZD Air-Cooled Screw Chiller O&M Manual (PDF)",
+      "category": "Air-Cooled Chillers",
+      "size": "28.5 MB",
+      "url": "/public/assets/aistudio/EWAH-TZ-D.EWAD-TZ-D.EWAS-TZ-D.EWFH-TZ-D.EWFD-TZ-D.EWFS-TZ-D_Installation.Operation.Maintenance_manual_D-EIMAC01905-23_05_English__003__8713ce6b.pdf"
+    },
+    {
+      "id": "res-7",
+      "title": "Daikin EKEQMCBAV3 Option Kit & EKEXV IOM Manual (PDF)",
+      "category": "AHU Expansion Valve Kits",
+      "size": "3.8 MB",
+      "url": "/public/assets/aistudio/EKEQMCBAV3_EKEXV_4PEN383213-1B_2016-10_Installation_and_operation_manual_English_a1e09978.pdf"
+    },
+    {
+      "id": "res-8",
+      "title": "Daikin RXQ-ARYFK VRV X Series Engineering Data Book (PDF)",
+      "category": "VRV / VRF Systems",
+      "size": "18.5 MB",
+      "url": "/public/assets/aistudio/RXQ-ARYFK_Data_Book_f7755162.pdf"
+    },
+    {
+      "id": "res-9",
+      "title": "Daikin FXMQ-ARV1 Ducted Unit Data Book (PDF)",
+      "category": "Air Handling Units (AHU)",
+      "size": "15.2 MB",
+      "url": "/public/assets/aistudio/FXMQ-ARV1_Data_Book_3298406b.pdf"
+    },
+    {
+      "id": "res-10",
+      "title": "Daikin FXFQ-B Ceiling Mounted Cassette Installation & Operation Manual (PDF)",
+      "category": "Fan Coil Units (FCU)",
+      "size": "9.4 MB",
+      "url": "/public/assets/aistudio/FXFQ-B_Installation_and_operation_manuals_4PEN540926-1E_English_e2305f66.pdf"
+    },
+    {
+      "id": "res-11",
+      "title": "Daikin Energy Recovery Ventilation (ERV) Units IOM Manual (PDF)",
+      "category": "Energy Recovery Ventilation",
+      "size": "14.8 MB",
+      "url": "/public/assets/aistudio/ERV_Installation_Operation__Maintenance_Manual_6175514d.pdf"
+    },
+    {
+      "id": "res-12",
+      "title": "Daikin FDMRN-A Series Engineering Data Book (PDF)",
+      "category": "DX and Split AC Systems",
+      "size": "16.5 MB",
+      "url": "/public/assets/aistudio/FDMRN_0f4c7fe9.pdf"
+    },
+    {
+      "id": "res-13",
+      "title": "Daikin FDMRN-A-K Series Operation Manual (PDF)",
+      "category": "DX and Split AC Systems",
+      "size": "6.2 MB",
+      "url": "/public/assets/aistudio/FDMRN-A-K_Series_Operation_Manual_2022-03-28_06_35_01_f27b0312.pdf"
+    },
+    {
+      "id": "res-14",
+      "title": "Daikin FTKM-PVM R-32 Wall Mounted Split AC Technical Data (PDF)",
+      "category": "DX and Split AC Systems",
+      "size": "11.1 MB",
+      "url": "/public/assets/aistudio/FTKM_495ba481.pdf"
+    },
+    {
+      "id": "res-15",
+      "title": "Daikin FAHU with VRV Outdoor Piping & Wiring Installation Manual (PDF)",
+      "category": "Fresh Air Handling Units (FAHU)",
+      "size": "8.4 MB",
+      "url": "/public/assets/aistudio/FAHU_VRV_IM_3ca5bfea.pdf"
+    },
+    {
+      "id": "res-16",
+      "title": "Daikin Commissioning & Handing Over Report Template (PDF)",
+      "category": "Commissioning & Reports",
+      "size": "2.1 MB",
+      "url": "/public/assets/aistudio/DX_Comm_Report_f311a8f4.pdf"
+    },
+    {
+      "id": "res-17",
+      "title": "Daikin Al Jada Development Project Spare Parts List (PDF)",
+      "category": "Spare Parts & Logistical Schedule",
+      "size": "4.5 MB",
+      "url": "/public/assets/aistudio/DX_SPARE_PARTS_LIST_1f48cb19.pdf"
+    },
+    {
+      "id": "res-18",
+      "title": "Daikin AHU VRV IV Commissioning Checklist (PDF)",
+      "category": "Air Handling Units (AHU)",
+      "size": "3.2 MB",
+      "url": "/public/assets/aistudio/FAHU_CHECK_LIST_FOR_GECO_NEST._1b46e327.pdf"
+    },
+    {
+      "id": "res-19",
+      "title": "Daikin FAHU-01 Villa-04 Control Panel & Thyristor Schematics (PDF)",
+      "category": "Control Panels & Wiring Diagrams",
+      "size": "1.6 MB",
+      "url": "/public/assets/aistudio/01-FAHU-01_VILLA-04_CONTROL_PANEL__A_D_EC_SUPPLY_FAN__THYRISTOR-6.0KW__20ce941a.pdf"
+    },
+    {
+      "id": "res-20",
+      "title": "Daikin FAHU-P5-01 Control Panel Electrical Drawings (PDF)",
+      "category": "Control Panels & Wiring Diagrams",
+      "size": "1.5 MB",
+      "url": "/public/assets/aistudio/01-FAHU-P5-01_CONTROL_PANEL_fe73da4c.pdf"
+    },
+    {
+      "id": "res-21",
+      "title": "Daikin RYYQ-T7Y1B Outdoor Unit Layout & Installation Guide (PDF)",
+      "category": "VRV / VRF Systems",
+      "size": "3.1 MB",
+      "url": "/public/assets/aistudio/RYYQ-T7Y1B_Guide_e4066213.pdf"
+    },
+    {
+      "id": "res-22",
+      "title": "ebm-papst EC Centrifugal Fans RadiPac Technical Catalog (PDF)",
+      "category": "Ventilation & Fan Engineering",
+      "size": "43.4 MB",
+      "url": "/public/assets/aistudio/Catalog_Centrifugalfans_EC-RadiPac_EN_7a46676c.pdf"
+    },
+    {
+      "id": "res-23",
+      "title": "Daikin Simple Self-Diagnosis by Malfunction Code Manual (SM-TS2) (PDF)",
+      "category": "Troubleshooting & Error Codes",
+      "size": "0.3 MB",
+      "url": "/public/assets/aistudio/ERROR_CODE_-_SM-TS2_f92939a2.pdf"
+    },
+    {
+      "id": "res-24",
+      "title": "Daikin Middle East OYL Condensing Unit with AHU Service Training Course (PDF)",
+      "category": "Service Training & O&M Manuals",
+      "size": "4.2 MB",
+      "url": "/public/assets/aistudio/OYL_Condensing_Unit_AHU_Service_Course_69b38359.pdf"
+    },
+    {
+      "id": "res-25",
+      "title": "Daikin VRV IV & AHU Testing and Commissioning Report (PDF)",
+      "category": "Commissioning & Reports",
+      "size": "0.9 MB",
+      "url": "/public/assets/aistudio/VRV___F_AHU-Testing_and_Commissioning_Report_e1fd7e2d.pdf"
+    },
+    {
+      "id": "res-26",
+      "title": "Daikin VRV IV & AHU/FAHU Commissioning & Inspection Sheet (PDF)",
+      "category": "Air Handling Units (AHU)",
+      "size": "0.8 MB",
+      "url": "/public/assets/aistudio/AHU_FAHU_MS_1a53dc2e.pdf"
+    },
+    {
+      "id": "res-27",
+      "title": "Daikin FXSQ-A2VEB Concealed Ceiling Ducted Indoor Unit Installation & Operation Manual (PDF)",
+      "category": "Fan Coil Units (FCU)",
+      "size": "4.6 MB",
+      "url": "/public/assets/aistudio/FXSQ-A2VEB_Installation___Operation_Manual_EN_d4d8096a.pdf"
+    },
+    {
+      "id": "res-28",
+      "title": "Daikin VRV IV High Ambient Heat Pump Engineering Data Book (RXYTQ8-48TYF) (PDF)",
+      "category": "VRV / VRF Systems",
+      "size": "24.8 MB",
+      "url": "/public/assets/aistudio/VRV_DATA_BOOK_RXYTQ-TYF_EEDEN15-210_Data_Books_English_04720be6.pdf"
+    },
+    {
+      "id": "res-29",
+      "title": "Daikin VRV IV (RXYTQ) Troubleshooting & Error Codes Reference (A0-UH) (PDF)",
+      "category": "Troubleshooting & Error Codes",
+      "size": "1.2 MB",
+      "url": "/public/assets/aistudio/VRV_Error_Codes_f47c5125.pdf"
+    },
+    {
+      "id": "res-30",
+      "title": "Daikin VRV IV (RXYTQ) General Operation, Controls & Maintenance Presentation (PDF)",
+      "category": "VRV / VRF Systems",
+      "size": "8.9 MB",
+      "url": "/public/assets/aistudio/VRV_General_operation_maintainance_presentation_-_RXYTQ_fcfcd6e9.pdf"
+    },
+    {
+      "id": "res-31",
+      "title": "Daikin Middle East VRV-IV High Ambient Installation Training Presentation (PDF)",
+      "category": "VRV / VRF Systems",
+      "size": "11.4 MB",
+      "url": "/public/assets/aistudio/3._DAME-VRV-IV_Installation_Training_PPT_b68799a2.pdf"
+    },
+    {
+      "id": "res-32",
+      "title": "Daikin Middle East Modular Air Handling Units IOM Manual (DMA-IOM-15-01) (PDF)",
+      "category": "Air Handling Units (AHU)",
+      "size": "9.8 MB",
+      "url": "/public/assets/aistudio/AHU__Installation__Operation___Maintenance_Manual_82dff2dc.pdf"
+    },
+    {
+      "id": "res-33",
+      "title": "Daikin Guidelines for Using Generator Power for DX & VRV Systems (PDF)",
+      "category": "HVAC Controls and BMS Interfaces",
+      "size": "1.1 MB",
+      "url": "/public/assets/aistudio/GUIDELINES_FOR_USING_GENERATOR_POWER_FOR_DAIKIN_DX-VRV_SYSTEMS_e67312ef.pdf"
+    },
+    {
+      "id": "res-34",
+      "title": "Daikin VRV + FAHU Control Sequence, 0-10V Wiring & Block Diagram (PDF)",
+      "category": "Fresh Air Handling Units (FAHU)",
+      "size": "1.9 MB",
+      "url": "/public/assets/aistudio/VRV___FAHU_Control_sequence_wiring_block_diagram_c9fbf891.pdf"
+    }
+  ],
+  "promoCodes": [
+    {
+      "code": "DAIKIN20",
+      "discountPercent": 20,
+      "active": true
+    },
+    {
+      "code": "ACADEMY50",
+      "discountPercent": 50,
+      "active": true
+    },
+    {
+      "code": "FREEMODULE",
+      "discountPercent": 100,
+      "active": true
+    }
+  ],
+  "modelLibrary": [
+    {
+      "modelNumber": "EWAD240TZSRN",
+      "equipmentType": "Air-Cooled Chiller",
+      "manualTitle": "EWAD-TZ Installation Manual Rev 4.2",
+      "torqueSpec": "Flange bolts: 145 Nm",
+      "refrigerantCharge": "R-134a / R-513A (Dual Circuit)",
+      "clearanceReq": "Minimum 2.0m vertical, 1.5m perimeter"
+    },
+    {
+      "modelNumber": "VRV-V-REXYQ",
+      "equipmentType": "VRV Inverter Heat Pump",
+      "manualTitle": "VRV V Engineering Manual EDUS09-501R",
+      "torqueSpec": "1/2 inch flare nut: 55-65 Nm",
+      "refrigerantCharge": "R-410A / R-32 dependent",
+      "clearanceReq": "1.5m top discharge clearance"
+    },
+    {
+      "modelNumber": "FBA100A",
+      "equipmentType": "Ducted SkyAir Unit",
+      "manualTitle": "FBA-A Installation Manual",
+      "torqueSpec": "Suspension rod M10: 35 Nm",
+      "refrigerantCharge": "Factory pre-charged + liquid line add",
+      "clearanceReq": "Service access hatch 600x600mm minimum"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-1",
+      "courseId": "course-3",
+      "userId": "usr_student_1",
+      "userName": "Tariq Bin Ziyad",
+      "rating": 5,
+      "comment": "Exceptional breakdown of VRV refnet joints and 4.15 MPa pressure testing. Highly recommended for site engineers!",
+      "createdAt": "2026-11-26T16:52:28.478Z"
+    },
+    {
+      "id": "rev-2",
+      "courseId": "course-1",
+      "userId": "usr_instructor_1",
+      "userName": "Ing. Marco Bellini",
+      "rating": 5,
+      "comment": "Rigorous engineering accuracy matching EWAD-TZ manual specs perfectly.",
+      "createdAt": "2026-11-26T16:52:28.478Z"
+    }
+  ],
+  "generatedVideos": [
+    {
+      "id": "vid_lesson_1",
+      "title": "VRV IV & VRV X Piping, 0.02 MPa N₂ Brazing & 40-Bar Pressure Testing",
+      "description": "Bilingual (EN/AR) narrated animated training covering 165m/1000m VRV piping limits, 500mm Refnet straight runs, 200mm oil rise traps, continuous 0.02 MPa dry nitrogen brazing, 3-step 4.15 MPa leak test, 2-hour 500-micron vacuum drying, and liquid-line R-410A charging.",
+      "category": "VRV / VRF Systems",
+      "level": "Intermediate",
+      "playbackType": "interactive",
+      "interactiveLessonId": "lesson-vrv-piping",
+      "technicalSkillLevel": "Level 2 — Field Technician",
+      "requiredTools": [
+        "Dual-Stage Dry Nitrogen Regulator (0–6.0 MPa)",
+        "Low-Flow Nitrogen Purge Regulator (0.02 MPa)",
+        "Oxy-Acetylene Brazing Torch with Flashback Arrestors",
+        "Two-Stage Vacuum Pump & Digital Micron Gauge (<500 Microns)",
+        "Calibrated Electronic Refrigerant Charging Scale (R-410A)"
+      ],
+      "safetyPrerequisites": [
+        "Maintain continuous 0.02 MPa dry nitrogen sweep inside copper piping during all brazing",
+        "Pressurize stepwise (0.3 → 1.5 → 4.0/4.15 MPa) using dry nitrogen only — never use oxygen",
+        "Keep outdoor liquid and gas service stop valves closed throughout pressure and vacuum testing"
+      ],
+      "referenceManualId": "res-31",
+      "prompt": "Built-in bilingual animated training lesson grounded in DAME VRV-IV Installation Training PPT & RXQ-ARYFK Data Book.",
+      "interactionId": "builtin-lesson-vrv-piping",
+      "parentVideoId": null,
+      "rootVideoId": "vid_lesson_1",
+      "turnType": "generate",
+      "turnNumber": 1,
+      "durationSeconds": 85,
+      "cumulativeDurationSeconds": 85,
+      "aspectRatio": "16:9",
+      "resolution": "1080p",
+      "streamUrl": "",
+      "courseId": "course-3",
+      "moduleId": "m301",
+      "isCourseTrailer": true,
+      "showInLibrary": true,
+      "published": true,
+      "createdBy": "usr_instructor_1",
+      "createdByName": "Daikin Academy Curriculum",
+      "createdAt": "2026-11-26T21:22:25.398Z"
+    },
+    {
+      "id": "vid_lesson_2",
+      "title": "VRV + FAHU 0–10V DC Control Wiring & EKEQFCB Capacity Step Sequence",
+      "description": "Bilingual (EN/AR) narrated animated training on Daikin VRV-to-FAHU integration with EKEXV, EKEQFCBAV3, and DDC panels: ≥50mm cable separation, F1/F2 & T1/T2 wiring, live 0–10V DC ΔT step curve (5V hold / 5.5–10V cool), and damper/airflow safety interlocks.",
+      "category": "Fresh Air Handling Units (FAHU)",
+      "level": "Advanced",
+      "playbackType": "interactive",
+      "interactiveLessonId": "lesson-vrv-fahu-controls",
+      "technicalSkillLevel": "Level 3 — Senior Commissioning Engineer",
+      "requiredTools": [
+        "0–10V DC Signal Generator / Loop Calibrator",
+        "True-RMS Digital Multimeter",
+        "0.75–1.25 mm² Shielded Twisted Pair Cable & Crimper",
+        "Thermistor Thermal Paste & Aluminum Foil Tape (R2T/R3T)",
+        "Digital Differential Pressure Manometer"
+      ],
+      "safetyPrerequisites": [
+        "Separate 230V/400V AC power wiring from F1/F2, P1/P2, and 0–10V DC control lines by ≥50 mm",
+        "Never permit VRV compressor start without verified FAHU motorized damper end-switch and airflow DPS proof",
+        "Confirm fire alarm dry-contact hardwire stops supply fan and VRV unit immediately"
+      ],
+      "referenceManualId": "res-34",
+      "prompt": "Built-in bilingual animated training lesson grounded in Daikin VRV + FAHU Control Sequence & Wiring Block Diagram.",
+      "interactionId": "builtin-lesson-vrv-fahu-controls",
+      "parentVideoId": null,
+      "rootVideoId": "vid_lesson_2",
+      "turnType": "generate",
+      "turnNumber": 1,
+      "durationSeconds": 85,
+      "cumulativeDurationSeconds": 85,
+      "aspectRatio": "16:9",
+      "resolution": "1080p",
+      "streamUrl": "",
+      "courseId": "course-5",
+      "moduleId": "m501",
+      "isCourseTrailer": true,
+      "showInLibrary": true,
+      "published": true,
+      "createdBy": "usr_instructor_1",
+      "createdByName": "Daikin Academy Curriculum",
+      "createdAt": "2026-11-26T21:22:25.398Z"
+    },
+    {
+      "id": "vid_lesson_3",
+      "title": "VRV Outdoor A1P Control PCB Settings (BS1–BS3, DS1–DS2) & Error Codes",
+      "description": "Bilingual (EN/AR) narrated animated training covering 6-hour crankcase preheat, refrigerant-cooled A1P PCB navigation (Mode 1 vs Mode 2 [2-49]/[2-35]), mandatory Test Run (t01–t10), 8-hour oil recovery, and troubleshooting E3, U4, U3, UF, and L5 faults.",
+      "category": "Troubleshooting & Error Codes",
+      "level": "Advanced",
+      "playbackType": "interactive",
+      "interactiveLessonId": "lesson-vrv-pcb-errors",
+      "technicalSkillLevel": "Level 3 — Senior Commissioning Engineer",
+      "requiredTools": [
+        "Insulated Precision Screwdriver (DS1/DS2 DIP Switches)",
+        "Daikin Service Checker / True-RMS Clamp Meter",
+        "Digital R-410A Manifold Gauge Set",
+        "VRV IV Error Code Manual (A0–UH)"
+      ],
+      "safetyPrerequisites": [
+        "Energize outdoor crankcase heater for at least 6 hours before starting inverter compressors",
+        "Wait 10 minutes after power isolation and verify DC bus capacitors are discharged before touching inverter PCB",
+        "Log active Mode 1 fault history before cycling main isolator power"
+      ],
+      "referenceManualId": "res-29",
+      "prompt": "Built-in bilingual animated training lesson grounded in RXYTQ Operation & Maintenance Presentation & VRV Error Codes Manual.",
+      "interactionId": "builtin-lesson-vrv-pcb-errors",
+      "parentVideoId": null,
+      "rootVideoId": "vid_lesson_3",
+      "turnType": "generate",
+      "turnNumber": 1,
+      "durationSeconds": 85,
+      "cumulativeDurationSeconds": 85,
+      "aspectRatio": "16:9",
+      "resolution": "1080p",
+      "streamUrl": "",
+      "courseId": "course-3",
+      "moduleId": "m305",
+      "isCourseTrailer": false,
+      "showInLibrary": true,
+      "published": true,
+      "createdBy": "usr_instructor_1",
+      "createdByName": "Daikin Academy Curriculum",
+      "createdAt": "2026-11-26T21:22:25.398Z"
+    },
+    {
+      "id": "vid_lesson_4",
+      "title": "Modular AHU / FAHU Assembly, Spring Isolators, Siphon Drain & Start-Up",
+      "description": "Bilingual (EN/AR) narrated animated training based on DMA-IOM-15-01: spreader-bar rigging, 40/60mm thermal-break gasketing, unlocking fan shipping bolts, laser pulley alignment, negative-pressure siphon trap sizing (H ≥ fan static head + 50mm), and Star-Delta start-up.",
+      "category": "Air Handling Units (AHU)",
+      "level": "Intermediate",
+      "playbackType": "interactive",
+      "interactiveLessonId": "lesson-ahu-fahu-startup",
+      "technicalSkillLevel": "Level 3 — Senior Commissioning Engineer",
+      "requiredTools": [
+        "Laser Pulley & V-Belt Tension Alignment Tool",
+        "True-RMS Clamp Meter (L1/L2/L3 vs Nameplate FLA)",
+        "Precision Spirit Level & Torque Wrench Set",
+        "Differential Pressure Manometer & Condensate Test Pitcher"
+      ],
+      "safetyPrerequisites": [
+        "Apply Lockout/Tagout (LOTO) before removing fan isolator shipping bolts or rotating impeller by hand",
+        "Never operate AHU supply fans with inspection doors open or ductwork disconnected (motor overload hazard)",
+        "Prime negative-pressure condensate siphon trap with water and verify heater high-limit cutout with fan off"
+      ],
+      "referenceManualId": "res-32",
+      "prompt": "Built-in bilingual animated training lesson grounded in Daikin Middle East Modular AHU IOM Manual (DMA-IOM-15-01).",
+      "interactionId": "builtin-lesson-ahu-fahu-startup",
+      "parentVideoId": null,
+      "rootVideoId": "vid_lesson_4",
+      "turnType": "generate",
+      "turnNumber": 1,
+      "durationSeconds": 85,
+      "cumulativeDurationSeconds": 85,
+      "aspectRatio": "16:9",
+      "resolution": "1080p",
+      "streamUrl": "",
+      "courseId": "course-4",
+      "moduleId": "m401",
+      "isCourseTrailer": true,
+      "showInLibrary": true,
+      "published": true,
+      "createdBy": "usr_instructor_1",
+      "createdByName": "Daikin Academy Curriculum",
+      "createdAt": "2026-11-26T21:22:25.398Z"
+    },
+    {
+      "id": "vid_lesson_5",
+      "title": "FXSQ Concealed Ceiling Ducted Installation, 625 mm Drain Pump & ESP Setup",
+      "description": "Bilingual (EN/AR) narrated animated training grounded in the FXSQ-A2VEB manual: 4×M10 hanger rod leveling, rear vs bottom suction conversion, dual-wrench flare torque specs (14–61 Nm), 625 mm high-lift condensate pump test, 30–150 Pa ESP setup, and BRC1E62 wiring.",
+      "category": "Fan Coil Units (FCU)",
+      "level": "Beginner",
+      "playbackType": "interactive",
+      "interactiveLessonId": "lesson-fxsq-ducted",
+      "technicalSkillLevel": "Level 2 — Field Technician",
+      "requiredTools": [
+        "Calibrated Flare Torque Wrench & Backup Spanner (1/4\" to 5/8\")",
+        "Spirit Level & M10 Double-Nut Ratchet Wrench",
+        "1-Liter Drain Pan Water Pour Test Pitcher",
+        "Insulated Wire Stripper for F1/F2 & P1/P2 Control Terminals"
+      ],
+      "safetyPrerequisites": [
+        "Verify ceiling slab anchor load rating for all four M10 suspension rods before lifting unit",
+        "Confirm ≥450×450 mm service hatch clearance below switch box and drain pan",
+        "Never connect 230V AC supply onto non-polar F1/F2 or P1/P2 BRC1E62 terminals"
+      ],
+      "referenceManualId": "res-27",
+      "prompt": "Built-in bilingual animated training lesson grounded in Daikin FXSQ-A2VEB Installation & Operation Manual EN.",
+      "interactionId": "builtin-lesson-fxsq-ducted",
+      "parentVideoId": null,
+      "rootVideoId": "vid_lesson_5",
+      "turnType": "generate",
+      "turnNumber": 1,
+      "durationSeconds": 80,
+      "cumulativeDurationSeconds": 80,
+      "aspectRatio": "16:9",
+      "resolution": "1080p",
+      "streamUrl": "",
+      "courseId": "course-6",
+      "moduleId": "m601",
+      "isCourseTrailer": true,
+      "showInLibrary": true,
+      "published": true,
+      "createdBy": "usr_instructor_1",
+      "createdByName": "Daikin Academy Curriculum",
+      "createdAt": "2026-11-26T21:22:25.398Z"
+    },
+    {
+      "id": "vid_lesson_6",
+      "title": "Generator Power Guidelines, ELCB/RCCB Protection & 500V Megger Checks",
+      "description": "Bilingual (EN/AR) narrated animated training on Daikin DX/VRV electrical protection: ±10% generator voltage tolerance, ≤2% phase unbalance, pure sine wave AVR, Neutral-to-Earth <1V, inverter-rated 100–300 mA ELCB selection, and safe 500V DC Megger ≥2 MΩ testing.",
+      "category": "HVAC Controls and BMS Interfaces",
+      "level": "Advanced",
+      "playbackType": "interactive",
+      "interactiveLessonId": "lesson-generator-elcb",
+      "technicalSkillLevel": "Level 3 — Senior Commissioning Engineer",
+      "requiredTools": [
+        "500V DC Insulation Resistance Tester (Megger)",
+        "3-Phase Power Quality Analyzer / True-RMS Multimeter",
+        "Phase Rotation Sequence Meter (L1-L2-L3)",
+        "Earth Loop Impedance & ELCB Trip Tester"
+      ],
+      "safetyPrerequisites": [
+        "CRITICAL: Disconnect inverter PCBs, F1/F2, and P1/P2 wiring before applying 500V DC Megger test voltage",
+        "Verify Neutral-to-Earth voltage <1.0V AC and fixed L1-L2-L3 phase sequence on generator transfer",
+        "Install high-frequency inverter-compatible ELCB (100–300 mA) and maintain daily generator power logs for warranty"
+      ],
+      "referenceManualId": "res-33",
+      "prompt": "Built-in bilingual animated training lesson grounded in Daikin Guidelines for Using Generator Power & VRV-IV Training PPT.",
+      "interactionId": "builtin-lesson-generator-elcb",
+      "parentVideoId": null,
+      "rootVideoId": "vid_lesson_6",
+      "turnType": "generate",
+      "turnNumber": 1,
+      "durationSeconds": 80,
+      "cumulativeDurationSeconds": 80,
+      "aspectRatio": "16:9",
+      "resolution": "1080p",
+      "streamUrl": "",
+      "courseId": "course-9",
+      "moduleId": "m901",
+      "isCourseTrailer": true,
+      "showInLibrary": true,
+      "published": true,
+      "createdBy": "usr_instructor_1",
+      "createdByName": "Daikin Academy Curriculum",
+      "createdAt": "2026-11-26T21:22:25.398Z"
+    }
+  ],
+  "videoMetadataPresets": [
+    {
+      "id": "preset-vrv-commissioning",
+      "name": "VRV IV Testing & Commissioning (Master/Slave)",
+      "technicalSkillLevel": "Level 3 — Senior Commissioning Engineer",
+      "requiredTools": [
+        "True-RMS Clamp Meter (L1/L2/L3 Voltage & Amps)",
+        "Digital Refrigerant Manifold Gauge Set (R-410A)",
+        "Calibrated Electronic Refrigerant Charging Scale",
+        "Digital Vacuum Micron Gauge (< 500 Microns)",
+        "500V DC Insulation Resistance Tester (Megger)",
+        "Calibrated Flare Torque Wrench (1/4\" to 7/8\")"
+      ],
+      "safetyPrerequisites": [
+        "Verify ELCB/RCCB breaker rating and trip sensitivity on Main, Master, and Slave outdoor units",
+        "Lockout/Tagout (LOTO) main isolator before tightening power terminals or setting PCB dip switches",
+        "Confirm L1/L2/L3 supply phase balance and voltage match unit nameplate before energization",
+        "Wear safety goggles and refrigerant-rated insulated gloves during discharge/suction pressure logging"
+      ],
+      "referenceManualId": "res-25",
+      "builtIn": true,
+      "createdBy": "usr_instructor_1",
+      "createdByName": "Daikin Academy Standards",
+      "updatedAt": "2026-11-26T18:16:34.573Z"
+    },
+    {
+      "id": "preset-ahu-fahu-commissioning",
+      "name": "AHU / FAHU Mechanical & Fan Isolator Start-Up",
+      "technicalSkillLevel": "Level 3 — Senior Commissioning Engineer",
+      "requiredTools": [
+        "Laser Belt & Pulley Alignment Tool",
+        "Digital Clamp Meter (Supply & Return Fan Amps)",
+        "Hex Key & Torque Wrench Set (Pulley Setscrews)",
+        "Precision Spirit Level (Base & Drain Slope)",
+        "Digital Differential Pressure Manometer",
+        "Condensate Drain Pan Test Pitcher"
+      ],
+      "safetyPrerequisites": [
+        "Confirm power is isolated and LOTO applied before rotating supply/return fans freely by hand",
+        "Verify hold-down shipping bolts are backed off on all spring-mounted fan vibration isolators",
+        "Test electric heater high-limit safety cutout with supply fans off per AHU commissioning sheet",
+        "Verify field-installed ELCB/RCCB protection and condensate trap water seal before full-load run"
+      ],
+      "referenceManualId": "res-26",
+      "builtIn": true,
+      "createdBy": "usr_instructor_1",
+      "createdByName": "Daikin Academy Standards",
+      "updatedAt": "2026-11-26T18:16:34.573Z"
+    },
+    {
+      "id": "preset-vrv-brazing-n2",
+      "name": "VRV Refnet Brazing & 4.15 MPa Nitrogen Test",
+      "technicalSkillLevel": "Level 2 — Field Technician",
+      "requiredTools": [
+        "Oxy-Acetylene Brazing Torch with Flashback Arrestors",
+        "Dual-Stage Dry Nitrogen Regulator (0–6.0 MPa)",
+        "Low-Flow Nitrogen Purge Regulator (0.02 MPa)",
+        "Calibrated 6.0 MPa Test Manifold & Hoses",
+        "Non-Corrosive Leak Detection Bubble Solution",
+        "Copper Tube Cutter, Reamer & Pipe Bender"
+      ],
+      "safetyPrerequisites": [
+        "Maintain continuous 0.02 MPa dry nitrogen sweep through copper lines during all brazing work",
+        "Secure high-pressure nitrogen cylinder upright with safety chain; never substitute oxygen",
+        "Pressurize stepwise to 4.15 MPa max with area cleared of unauthorized personnel",
+        "Wear brazing shade-5 goggles, heat-resistant leather gloves, and keep ABC fire extinguisher on site"
+      ],
+      "referenceManualId": "res-1",
+      "builtIn": true,
+      "createdBy": "usr_instructor_1",
+      "createdByName": "Daikin Academy Standards",
+      "updatedAt": "2026-11-26T18:16:34.573Z"
+    }
+  ],
+  "videoAnalytics": {
+    "vid_lesson_1": {
+      "videoId": "vid_lesson_1",
+      "totalViews": 1,
+      "uniqueViewers": [
+        "usr_student_1",
+        "usr_guest"
+      ],
+      "completions": 0,
+      "totalWatchSeconds": 8,
+      "segmentWatches": [
+        0,
+        1,
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "segmentRewatches": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "recentSessions": [
+        {
+          "userId": "usr_guest",
+          "userName": "Academy Student",
+          "maxPercentReached": 15,
+          "completed": false,
+          "rewatchCount": 0,
+          "lastWatchedAt": "2026-11-26T21:41:38.867Z"
+        },
+        {
+          "userId": "usr_student_1",
+          "userName": "Tariq Bin Ziyad",
+          "maxPercentReached": 30,
+          "completed": false,
+          "rewatchCount": 0,
+          "lastWatchedAt": "2026-11-26T21:22:31.848Z"
+        }
+      ],
+      "updatedAt": "2026-11-26T21:41:38.867Z"
+    }
+  },
+  "learningPaths": [],
+  "learningPathProgress": []
+}

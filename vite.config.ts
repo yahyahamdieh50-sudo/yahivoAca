@@ -28,6 +28,11 @@ export default defineConfig(() => {
         },
       },
     ],
+    build: {
+      copyPublicDir: false,
+      sourcemap: false,
+      chunkSizeWarningLimit: 1200,
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

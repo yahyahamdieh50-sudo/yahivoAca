@@ -8,19 +8,83 @@ import {
   Wrench, ShieldAlert, BookOpen, Award, CheckCircle2, Play, Lock, User,
   DollarSign, Search, Terminal, FileText, Settings, BarChart3, Globe,
   ArrowRight, Check, AlertTriangle, Sparkles, LogOut, ChevronRight, Download,
-  Sliders, Cpu, Activity, RefreshCw, X, Menu, Star, CheckSquare, MapPin, Mic, Video, Share2
+  Sliders, Cpu, Activity, RefreshCw, X, Menu, Star, CheckSquare, MapPin, Mic, Video, Share2, ListVideo, Box
 } from 'lucide-react';
 import { signInWithGoogle, logoutUser, auth } from './firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged } from '@firebase/auth';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Legend } from 'recharts';
+
+
+import { AcademyVideoPlayer, type AcademyVideo } from './components/AcademyVideoPlayer';
+import { VideoStudio, type StudioPrefill } from './components/VideoStudio';
+import { VideoAnalyticsDashboard } from './components/VideoAnalyticsDashboard';
+import { LearningPathsPanel } from './components/LearningPathsPanel';
+import { DaikinParts3DViewer } from './components/DaikinParts3DViewer';
+
+const MASTERCLASS_CURRICULUM_SLOTS = [
+  {
+    id: 'mc-chiller-rigging',
+    title: 'Chiller Rigging & Anti-Vibration Spring Isolator Placement',
+    category: 'Air-Cooled Chillers',
+    level: 'Advanced',
+    desc: 'Step-by-step masterclass on crane rigging, spreader bar load distribution, and seismic spring isolator leveling for EWAD-TZ chillers.',
+    prompt:
+      'Industrial crane slowly lowering a commercial air-cooled screw chiller onto heavy-duty seismic spring vibration isolators on a rooftop concrete plinth, HVAC rigging engineers using spreader bars and checking base frame level with a precision spirit level.',
+  },
+  {
+    id: 'mc-vrv-nitrogen',
+    title: 'VRV Nitrogen Pressure Testing at 4.15 MPa (601 psi)',
+    category: 'VRV / VRF Systems',
+    level: 'Intermediate',
+    desc: 'Detailed 24-hour hold test procedure, regulator setup, and safety protocols for multi-port refnet piping.',
+    prompt:
+      'Close-up of a commercial HVAC technician connecting a high-pressure nitrogen cylinder regulator and digital manifold gauge to copper VRV outdoor unit service ports, slowly pressurizing the refrigerant piping circuit to 4.15 MPa and inspecting brazed refnet joints with leak detection solution.',
+  },
+  {
+    id: 'mc-copper-brazing',
+    title: 'Copper Pipe Brazing with Nitrogen Purging & Flow Control',
+    category: 'VRV / VRF Systems',
+    level: 'Beginner',
+    desc: 'Preventing internal copper oxidation and scale formation using regulated dry nitrogen sweep during refnet joint brazing.',
+    prompt:
+      'HVAC technician in safety goggles and heat-resistant gloves brazing a copper refnet Y-branch joint using an oxy-acetylene torch while low-pressure dry nitrogen purges continuously through the pipe to prevent internal copper oxide scaling.',
+  },
+  {
+    id: 'mc-pump-alignment',
+    title: 'Chilled Water Pump Alignment & Hydraulic Balancing',
+    category: 'Chilled Water System Installation',
+    level: 'Advanced',
+    desc: 'Laser dial gauge shaft alignment, differential pressure bypass calibration, and motorized balancing valve verification.',
+    prompt:
+      'Mechanical commissioning engineer inside a commercial chilled water plant room performing laser shaft alignment on a base-mounted end-suction centrifugal pump and inspecting differential pressure gauges across a balancing valve.',
+  },
+  {
+    id: 'mc-inverter-diag',
+    title: 'Inverter Compressor Diagnostics & PCB Troubleshooting',
+    category: 'HVAC Controls and BMS Interfaces',
+    level: 'Advanced',
+    desc: 'Diagnosing inverter compressor IPM faults, error codes, and electronic expansion valve (EEV) coil operation.',
+    prompt:
+      'HVAC service engineer inside a commercial outdoor VRV electrical compartment measuring DC bus voltage on an inverter PCB with a calibrated digital multimeter and inspecting the electronic expansion valve coil seating.',
+  },
+];
 
 export default function App() {
-  const [currentView, setCurrentView] = useState<'home' | 'catalog' | 'course-detail' | 'lesson-viewer' | 'ai-assistant' | 'pricing' | 'dashboard' | 'admin' | 'maps-grounding' | 'audio-transcribe' | 'video-gen' | 'manuals-library' | 'video-library'>('home');
+  const [currentView, setCurrentView] = useState<'home' | 'catalog' | 'course-detail' | 'lesson-viewer' | 'ai-assistant' | 'pricing' | 'dashboard' | 'admin' | 'maps-grounding' | 'audio-transcribe' | 'video-gen' | 'video-analytics' | 'manuals-library' | 'video-library'>('home');
   const [lang, setLang] = useState<'en' | 'ar'>('en');
   const [currency, setCurrency] = useState<'USD' | 'AED'>('USD');
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [authToken, setAuthToken] = useState<string | null>(null);
+  const [authError, setAuthError] = useState<string | null>(null);
   const [courses, setCourses] = useState<any[]>([]);
+  const [academyVideos, setAcademyVideos] = useState<AcademyVideo[]>([]);
+  const [videoLibraryCategory, setVideoLibraryCategory] = useState<string>('All');
+  const [videoLibraryTab, setVideoLibraryTab] = useState<'all' | 'paths'>('all');
+  const [learningPathCount, setLearningPathCount] = useState<number>(0);
+  const [studioPrefill, setStudioPrefill] = useState<StudioPrefill | null>(null);
   const [selectedCourse, setSelectedCourse] = useState<any>(null);
   const [activeModule, setActiveModule] = useState<any>(null);
+  const [lessonStageTab, setLessonStageTab] = useState<'video' | '3d-parts'>('video');
   const [studentData, setStudentData] = useState<any>(null);
   const [adminStats, setAdminStats] = useState<any>(null);
   const [aiPrompt, setAiPrompt] = useState('');
@@ -36,16 +100,10 @@ export default function App() {
   const [transcriptResult, setTranscriptResult] = useState('');
   const [transcribeLoading, setTranscribeLoading] = useState(false);
 
-  // Video Generation state
-  const [videoPrompt, setVideoPrompt] = useState('Daikin VRV outdoor unit installation and nitrogen pressure test');
-  const [videoAspectRatio, setVideoAspectRatio] = useState('16:9');
-  const [generatedVideoUrl, setGeneratedVideoUrl] = useState('');
-  const [videoLoading, setVideoLoading] = useState(false);
-
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [authModal, setAuthModal] = useState<'login' | 'register' | null>(null);
-  const [authEmail, setAuthEmail] = useState('student@daikin-hvac-academy.com');
+  const [authEmail, setAuthEmail] = useState('instructor@daikin-hvac-academy.com');
   const [authPassword, setAuthPassword] = useState('password123');
   const [authName, setAuthName] = useState('');
   const [quizModalOpen, setQuizModalOpen] = useState(false);
@@ -72,7 +130,7 @@ export default function App() {
     image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=800&q=80',
     description: '',
     approvedSource: '',
-    trailerUrl: 'https://www.youtube.com/embed/9Z9N4K8W2oQ',
+    trailerUrl: '',
     modules: [
       { id: 'm-1', title: '1. Introduction & Overview', duration: '30 mins', type: 'video', preview: true }
     ]
@@ -91,7 +149,7 @@ export default function App() {
       image: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=800&q=80',
       description: '',
       approvedSource: 'Daikin Approved Engineering Manual',
-      trailerUrl: 'https://www.youtube.com/embed/9Z9N4K8W2oQ',
+      trailerUrl: '',
       modules: [
         { id: 'm-1', title: '1. Introduction & Overview', duration: '30 mins', type: 'video', preview: true }
       ]
@@ -112,7 +170,7 @@ export default function App() {
       image: course.image || '',
       description: course.description || '',
       approvedSource: course.approvedSource || '',
-      trailerUrl: course.trailerUrl || 'https://www.youtube.com/embed/9Z9N4K8W2oQ',
+      trailerUrl: course.trailerUrl || '',
       modules: course.modules ? JSON.parse(JSON.stringify(course.modules)) : []
     });
     setAdminCourseModalOpen(true);
@@ -123,18 +181,19 @@ export default function App() {
     try {
       const url = adminEditingCourseId ? `/api/admin/courses/${adminEditingCourseId}` : '/api/admin/courses';
       const method = adminEditingCourseId ? 'PUT' : 'POST';
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (authToken) headers.Authorization = `Bearer ${authToken}`;
       const res = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify(adminCourseForm)
       });
       const data = await res.json();
       if (data.success) {
-        alert(adminEditingCourseId ? 'Course updated successfully!' : 'Course created successfully!');
         setAdminCourseModalOpen(false);
         fetchCourses();
       } else {
-        alert(data.error || 'Failed to save course');
+        setAuthError(data.error || 'Admin sign-in is required to save courses.');
       }
     } catch (err) {
       console.error(err);
@@ -142,17 +201,16 @@ export default function App() {
   };
 
   const handleDeleteCourse = async (courseId: string) => {
-    if (!confirm('Are you sure you want to delete this course and its training modules?')) return;
     try {
+      const headers: Record<string, string> = {};
+      if (authToken) headers.Authorization = `Bearer ${authToken}`;
       const res = await fetch(`/api/admin/courses/${courseId}`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers
       });
       const data = await res.json();
       if (data.success) {
-        alert('Course deleted successfully!');
         fetchCourses();
-      } else {
-        alert(data.error || 'Failed to delete course');
       }
     } catch (err) {
       console.error(err);
@@ -273,11 +331,59 @@ export default function App() {
     }
   }[lang];
 
-  // Fetch initial data
+  const canGenerateVideos =
+    Boolean(authToken) &&
+    (currentUser?.role === 'admin' || currentUser?.role === 'instructor');
+
+  const fetchAcademyVideos = async (tokenOverride?: string | null) => {
+    try {
+      const effectiveToken = tokenOverride !== undefined ? tokenOverride : authToken;
+      const headers: Record<string, string> = {};
+      if (effectiveToken) {
+        headers.Authorization = `Bearer ${effectiveToken}`;
+      }
+      const res = await fetch('/api/videos', { headers });
+      const contentType = res.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setAcademyVideos(data);
+        }
+      }
+    } catch (e) {
+      console.error('Error fetching academy videos:', e);
+    }
+  };
+
+  // Fetch initial data and sync Firebase Auth session if active
   useEffect(() => {
     fetchCourses();
     fetchStudentData('usr_student_1');
     fetchAdminStats();
+    fetchAcademyVideos(null);
+
+    const unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
+      if (!fbUser) return;
+      try {
+        const idToken = await fbUser.getIdToken();
+        const res = await fetch('/api/auth/firebase-sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken }),
+        });
+        const data = await res.json();
+        if (res.ok && data.success && data.user && data.token) {
+          setCurrentUser(data.user);
+          setAuthToken(data.token);
+          fetchStudentData(data.user.id);
+          fetchAcademyVideos(data.token);
+        }
+      } catch (err) {
+        console.error('Firebase session sync error:', err);
+      }
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const fetchCourses = async () => {
@@ -288,6 +394,18 @@ export default function App() {
         const data = await res.json();
         if (Array.isArray(data)) {
           setCourses(data);
+          setSelectedCourse((prev: any) => {
+            if (!prev) return prev;
+            const refreshed = data.find((c: any) => c.id === prev.id);
+            if (refreshed) {
+              setActiveModule((prevMod: any) => {
+                if (!prevMod) return prevMod;
+                return refreshed.modules?.find((m: any) => m.id === prevMod.id) || prevMod;
+              });
+              return refreshed;
+            }
+            return prev;
+          });
         }
       }
     } catch (e) {
@@ -308,8 +426,8 @@ export default function App() {
             certificates: Array.isArray(data.certificates) ? data.certificates : [],
             resources: Array.isArray(data.resources) ? data.resources : []
           });
-          if (data.user && !currentUser) {
-            setCurrentUser(data.user);
+          if (data.user) {
+            setCurrentUser((prev: any) => prev || data.user);
           }
         }
       }
@@ -333,29 +451,38 @@ export default function App() {
     }
   };
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const performLoginWithEmail = async (email: string, password: string) => {
+    setAuthError(null);
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: authEmail, password: authPassword })
+        body: JSON.stringify({ email, password })
       });
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.user) {
         setCurrentUser(data.user);
+        setAuthToken(data.token || null);
         fetchStudentData(data.user.id);
+        fetchAcademyVideos(data.token || null);
         setAuthModal(null);
       } else {
-        alert(data.error || 'Login failed');
+        setAuthError(data.error || 'Login failed. Please check your credentials.');
       }
     } catch (err) {
       console.error(err);
+      setAuthError('Network error while signing in.');
     }
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    await performLoginWithEmail(authEmail, authPassword);
   };
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
+    setAuthError(null);
     try {
       const res = await fetch('/api/auth/register', {
         method: 'POST',
@@ -363,20 +490,30 @@ export default function App() {
         body: JSON.stringify({ name: authName || 'New Student', email: authEmail, password: authPassword })
       });
       const data = await res.json();
-      if (data.success) {
+      if (data.success && data.user) {
         setCurrentUser(data.user);
+        setAuthToken(data.token || null);
         fetchStudentData(data.user.id);
+        fetchAcademyVideos(data.token || null);
         setAuthModal(null);
       } else {
-        alert(data.error || 'Registration failed');
+        setAuthError(data.error || 'Registration failed.');
       }
     } catch (err) {
       console.error(err);
+      setAuthError('Network error while registering.');
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+    } catch {
+      // Ignore if not signed into Firebase
+    }
     setCurrentUser(null);
+    setAuthToken(null);
+    fetchAcademyVideos(null);
     setCurrentView('home');
   };
 
@@ -401,25 +538,30 @@ export default function App() {
   };
 
   const handleGoogleSignIn = async () => {
+    setAuthError(null);
     try {
-      const user = await signInWithGoogle();
-      if (user) {
-        const mappedUser = {
-          id: user.uid,
-          name: user.displayName || 'Firebase User',
-          email: user.email || '',
-          role: 'student',
-          subscriptionTier: 'free',
-          subscriptionStatus: 'active',
-          createdAt: new Date().toISOString()
-        };
-        setCurrentUser(mappedUser);
-        fetchStudentData(user.uid);
-        setAuthModal(null);
+      const fbUser = await signInWithGoogle();
+      if (fbUser) {
+        const idToken = await fbUser.getIdToken();
+        const res = await fetch('/api/auth/firebase-sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken }),
+        });
+        const data = await res.json();
+        if (res.ok && data.success && data.user && data.token) {
+          setCurrentUser(data.user);
+          setAuthToken(data.token);
+          fetchStudentData(data.user.id);
+          fetchAcademyVideos(data.token);
+          setAuthModal(null);
+        } else {
+          setAuthError(data.error || 'Could not verify Google account with academy server.');
+        }
       }
     } catch (err) {
       console.error('Google Sign-In failed:', err);
-      alert('Google Sign-In failed. Please check pop-up settings.');
+      setAuthError('Google Sign-In was cancelled or blocked by pop-up settings.');
     }
   };
 
@@ -460,22 +602,51 @@ export default function App() {
     }
   };
 
-  const handleGenerateVideo = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setVideoLoading(true);
-    try {
-      const res = await fetch('/api/ai/generate-video', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: videoPrompt, aspectRatio: videoAspectRatio })
-      });
-      const data = await res.json();
-      setGeneratedVideoUrl(data.videoUrl);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setVideoLoading(false);
+  const openVideoStudioForTarget = (prefill: StudioPrefill) => {
+    setStudioPrefill(prefill);
+    setCurrentView('video-gen');
+  };
+
+  const resolveModuleVideo = (course: any, mod: any): AcademyVideo | null => {
+    if (!course) return null;
+    if (mod?.videoId) {
+      const direct = academyVideos.find((v) => v.id === mod.videoId);
+      if (direct) return direct;
     }
+    if (mod?.id) {
+      const byMod = academyVideos.find(
+        (v) => v.courseId === course.id && v.moduleId === mod.id
+      );
+      if (byMod) return byMod;
+    }
+    if (course.trailerVideoId) {
+      const trailer = academyVideos.find((v) => v.id === course.trailerVideoId);
+      if (trailer) return trailer;
+    }
+    const byCourse = academyVideos.find((v) => v.courseId === course.id);
+    if (byCourse) return byCourse;
+
+    // Intelligent manual-topic fallback to built-in bilingual interactive lessons
+    const text = `${course.category || ''} ${course.title || ''} ${mod?.title || ''}`.toLowerCase();
+    const byLessonId = (lessonKey: string) =>
+      academyVideos.find((v) => v.interactiveLessonId === lessonKey) || null;
+
+    if (text.includes('error') || text.includes('pcb') || text.includes('fault') || text.includes('troubleshoot')) {
+      return byLessonId('lesson-vrv-pcb-errors') || academyVideos[0] || null;
+    }
+    if (text.includes('fahu') || text.includes('fresh air') || text.includes('ekexv') || text.includes('0-10v')) {
+      return byLessonId('lesson-vrv-fahu-controls') || academyVideos[0] || null;
+    }
+    if (text.includes('ahu') || text.includes('air handling') || text.includes('rigging') || text.includes('isolator') || text.includes('chiller')) {
+      return byLessonId('lesson-ahu-fahu-startup') || academyVideos[0] || null;
+    }
+    if (text.includes('fcu') || text.includes('fan coil') || text.includes('ducted') || text.includes('concealed') || text.includes('split') || text.includes('flare')) {
+      return byLessonId('lesson-fxsq-ducted') || academyVideos[0] || null;
+    }
+    if (text.includes('electrical') || text.includes('bms') || text.includes('control') || text.includes('generator') || text.includes('wiring') || text.includes('megger')) {
+      return byLessonId('lesson-generator-elcb') || academyVideos[0] || null;
+    }
+    return byLessonId('lesson-vrv-piping') || academyVideos[0] || null;
   };
 
   const handleCheckout = async (tier: string) => {
@@ -545,7 +716,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen bg-[#F0F4F8] text-[#0B192C] font-sans flex flex-col ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
+    <div className={`min-h-screen bg-[#F8FAFC] text-[#0B192C] font-sans flex flex-col ${lang === 'ar' ? 'rtl' : 'ltr'}`}>
       
       {/* Mandatory Disclaimer Banner */}
       <div className="bg-[#0B192C] text-white text-xs py-2 px-4 text-center border-b border-[#1E3E62] flex items-center justify-center gap-2">
@@ -579,13 +750,16 @@ export default function App() {
             <button onClick={() => setCurrentView('audio-transcribe')} className={`hover:text-blue-700 transition flex items-center gap-1 ${currentView === 'audio-transcribe' ? 'text-blue-700 font-bold' : 'text-gray-700'}`}>
               <Mic className="w-3.5 h-3.5 text-emerald-600" /> Transcribe
             </button>
-            <button onClick={() => setCurrentView('video-gen')} className={`hover:text-blue-700 transition flex items-center gap-1 ${currentView === 'video-gen' ? 'text-blue-700 font-bold' : 'text-gray-700'}`}>
-              <Video className="w-3.5 h-3.5 text-amber-500" /> AI Video
+            <button onClick={() => setCurrentView('video-gen')} className={`hover:text-blue-700 transition flex items-center gap-1 whitespace-nowrap shrink-0 ${currentView === 'video-gen' ? 'text-blue-700 font-bold' : 'text-gray-700'}`}>
+              <Video className="w-3.5 h-3.5 text-amber-500" /> Video Studio
             </button>
-            <button onClick={() => setCurrentView('manuals-library')} className={`hover:text-blue-700 transition flex items-center gap-1 ${currentView === 'manuals-library' ? 'text-blue-700 font-bold' : 'text-gray-700'}`}>
+            <button onClick={() => setCurrentView('video-analytics')} className={`hover:text-blue-700 transition flex items-center gap-1 whitespace-nowrap shrink-0 ${currentView === 'video-analytics' ? 'text-blue-700 font-bold' : 'text-gray-700'}`}>
+              <BarChart3 className="w-3.5 h-3.5 text-sky-600" /> Video Analytics
+            </button>
+            <button onClick={() => setCurrentView('manuals-library')} className={`hover:text-blue-700 transition flex items-center gap-1 whitespace-nowrap shrink-0 ${currentView === 'manuals-library' ? 'text-blue-700 font-bold' : 'text-gray-700'}`}>
               <FileText className="w-3.5 h-3.5 text-blue-700" /> Manuals & O&M
             </button>
-            <button onClick={() => setCurrentView('video-library')} className={`hover:text-blue-700 transition flex items-center gap-1 ${currentView === 'video-library' ? 'text-blue-700 font-bold' : 'text-gray-700'}`}>
+            <button onClick={() => setCurrentView('video-library')} className={`hover:text-blue-700 transition flex items-center gap-1 whitespace-nowrap shrink-0 ${currentView === 'video-library' ? 'text-blue-700 font-bold' : 'text-gray-700'}`}>
               <Play className="w-3.5 h-3.5 text-amber-500" /> Training Videos
             </button>
             <button onClick={() => setCurrentView('pricing')} className={`hover:text-blue-700 transition ${currentView === 'pricing' ? 'text-blue-700 font-bold' : 'text-gray-700'}`}>{t.pricing}</button>
@@ -616,13 +790,18 @@ export default function App() {
             </button>
 
             {currentUser ? (
-              <div className="flex items-center gap-3">
-                <div className="hidden sm:block text-right">
+              <div className="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => { setAuthError(null); setAuthModal('login'); }}
+                  className="hidden sm:block text-right hover:opacity-80 transition"
+                  title="Switch Account / Role"
+                >
                   <div className="text-xs font-bold text-gray-900">{currentUser.name}</div>
-                  <div className="text-[10px] uppercase font-semibold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded inline-block">
-                    {currentUser.subscriptionTier} plan
+                  <div className="text-[10px] font-mono uppercase text-slate-500">
+                    {currentUser.role || 'student'} · {currentUser.subscriptionTier || 'free'}
                   </div>
-                </div>
+                </button>
                 <button 
                   onClick={handleLogout}
                   className="p-2 text-gray-500 hover:text-red-600 transition rounded-lg hover:bg-gray-100" title={t.logout}>
@@ -859,36 +1038,102 @@ export default function App() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">Course Curriculum & Modules</h3>
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <h3 className="text-xl font-bold text-gray-900">Course Curriculum & Modules</h3>
+                    {canGenerateVideos && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          openVideoStudioForTarget({
+                            title: `${selectedCourse.title} — Course Overview Trailer`,
+                            category: selectedCourse.category,
+                            level: selectedCourse.level,
+                            prompt: `Overview training demonstration of ${selectedCourse.title}: ${selectedCourse.description}`,
+                            courseId: selectedCourse.id,
+                            moduleId: null,
+                            isCourseTrailer: true,
+                            mode: 'generate',
+                          })
+                        }
+                        className="text-xs font-bold text-sky-700 hover:text-sky-900 inline-flex items-center gap-1"
+                      >
+                        <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                        Generate Course Trailer
+                      </button>
+                    )}
+                  </div>
                   <div className="space-y-3">
-                    {selectedCourse.modules.map((mod: any, idx: number) => (
-                      <div key={mod.id} className="p-4 bg-gray-50 hover:bg-gray-100 rounded-xl border border-gray-200 flex items-center justify-between transition">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-blue-900 text-white font-bold text-xs flex items-center justify-center">
-                            {idx + 1}
+                    {selectedCourse.modules.map((mod: any, idx: number) => {
+                      const attachedVideo = academyVideos.find(
+                        (v) => v.id === mod.videoId || (v.courseId === selectedCourse.id && v.moduleId === mod.id)
+                      );
+                      return (
+                        <div key={mod.id} className="p-4 bg-slate-50 hover:bg-slate-100/80 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-3 transition">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className="w-8 h-8 rounded-lg bg-[#0B192C] text-white font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                              {idx + 1}
+                            </div>
+                            <div className="min-w-0">
+                              <div className="font-semibold text-sm text-slate-900">{mod.title}</div>
+                              <div className="text-xs font-mono text-slate-500 flex flex-wrap items-center gap-x-2 mt-0.5">
+                                <span>{mod.duration}</span>
+                                <span>·</span>
+                                <span>{mod.type}</span>
+                                {attachedVideo && (
+                                  <>
+                                    <span>·</span>
+                                    <span className="text-emerald-700 font-semibold">
+                                      AI Video Ready ({attachedVideo.cumulativeDurationSeconds || attachedVideo.durationSeconds}s)
+                                    </span>
+                                  </>
+                                )}
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                            <div className="font-semibold text-sm text-gray-900">{mod.title}</div>
-                            <div className="text-xs text-gray-500">{mod.duration} • {mod.type}</div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            {canGenerateVideos && (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  attachedVideo
+                                    ? openVideoStudioForTarget({
+                                        sourceVideoId: attachedVideo.id,
+                                        mode: 'extend',
+                                      })
+                                    : openVideoStudioForTarget({
+                                        title: `${selectedCourse.category}: ${mod.title}`,
+                                        category: selectedCourse.category,
+                                        level: selectedCourse.level,
+                                        prompt: `Detailed Daikin HVAC training demonstration for ${selectedCourse.title}, focusing on ${mod.title}. Show authentic tools, gauges, safety PPE, and step-by-step installation technique.`,
+                                        courseId: selectedCourse.id,
+                                        moduleId: mod.id,
+                                        isCourseTrailer: false,
+                                        mode: 'generate',
+                                      })
+                                }
+                                className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold text-xs rounded-lg flex items-center gap-1 transition"
+                              >
+                                <Video className="w-3.5 h-3.5 text-sky-600" />
+                                {attachedVideo ? 'Edit / Extend' : 'Generate Video'}
+                              </button>
+                            )}
+                            {mod.preview ? (
+                              <button 
+                                onClick={() => { setActiveModule(mod); setCurrentView('lesson-viewer'); }}
+                                className="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold text-xs rounded-lg flex items-center gap-1 shadow-xs">
+                                <Play className="w-3.5 h-3.5 fill-current" /> {t.freePreview}
+                              </button>
+                            ) : (
+                              <button 
+                                onClick={() => { setActiveModule(mod); setCurrentView('lesson-viewer'); }}
+                                className="px-3 py-1.5 bg-[#0B192C] hover:bg-slate-800 text-white font-bold text-xs rounded-lg flex items-center gap-1 shadow-xs">
+                                <Play className="w-3.5 h-3.5" /> Open Lesson
+                              </button>
+                            )}
                           </div>
                         </div>
-                        <div>
-                          {mod.preview ? (
-                            <button 
-                              onClick={() => { setActiveModule(mod); setCurrentView('lesson-viewer'); }}
-                              className="px-3 py-1.5 bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold text-xs rounded-lg flex items-center gap-1 shadow-xs">
-                              <Play className="w-3.5 h-3.5 fill-current" /> {t.freePreview}
-                            </button>
-                          ) : (
-                            <button 
-                              onClick={() => { setActiveModule(mod); setCurrentView('lesson-viewer'); }}
-                              className="px-3 py-1.5 bg-blue-900 hover:bg-blue-950 text-white font-bold text-xs rounded-lg flex items-center gap-1 shadow-xs">
-                              <Lock className="w-3.5 h-3.5" /> Access Lesson
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -1019,48 +1264,201 @@ export default function App() {
           </div>
         )}
 
-        {currentView === 'lesson-viewer' && selectedCourse && (
-          <div className="max-w-6xl mx-auto px-4 py-12">
-            <button onClick={() => setCurrentView('course-detail')} className="text-sm font-semibold text-blue-800 mb-6 flex items-center gap-1 hover:underline">
-              ← Back to Course Syllabus
-            </button>
-
-            <div className="bg-white rounded-3xl overflow-hidden shadow-xl border border-gray-200">
-              <div className="bg-gray-900 aspect-video relative flex items-center justify-center text-white">
-                <iframe 
-                  className="w-full h-full"
-                  src="https://www.youtube.com/embed/9Z9N4K8W2oQ?autoplay=1&mute=1&controls=1" 
-                  title="Professional HVAC Technical Training Video"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                  allowFullScreen>
-                </iframe>
+        {currentView === 'lesson-viewer' && selectedCourse && (() => {
+          const currentMod = activeModule || selectedCourse.modules?.[0] || null;
+          const lessonVideo = resolveModuleVideo(selectedCourse, currentMod);
+          return (
+            <div className="max-w-6xl mx-auto px-4 py-10 space-y-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <button onClick={() => setCurrentView('course-detail')} className="text-sm font-semibold text-sky-800 flex items-center gap-1 hover:underline">
+                  ← Back to Course Syllabus
+                </button>
+                {canGenerateVideos && (
+                  <button
+                    type="button"
+                    onClick={() =>
+                      lessonVideo
+                        ? openVideoStudioForTarget({ sourceVideoId: lessonVideo.id, mode: 'extend' })
+                        : openVideoStudioForTarget({
+                            title: `${selectedCourse.category}: ${currentMod?.title || selectedCourse.title}`,
+                            category: selectedCourse.category,
+                            level: selectedCourse.level,
+                            prompt: `Technical Daikin HVAC installation lesson for ${selectedCourse.title} — ${currentMod?.title || 'Core Procedure'}. Demonstrate proper tools, pressure/torque verification, and mechanical safety.`,
+                            courseId: selectedCourse.id,
+                            moduleId: currentMod?.id || null,
+                            isCourseTrailer: !currentMod,
+                            mode: 'generate',
+                          })
+                    }
+                    className="px-4 py-2 bg-[#0B192C] hover:bg-slate-800 text-white font-bold text-xs rounded-lg transition inline-flex items-center gap-1.5"
+                  >
+                    <Video className="w-3.5 h-3.5 text-amber-400" />
+                    {lessonVideo ? 'Edit / Extend Lesson Video in Studio' : 'Generate Lesson Video in Studio'}
+                  </button>
+                )}
               </div>
 
-              <div className="p-8 lg:p-12 space-y-6">
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                  <div>
-                    <span className="text-xs font-bold bg-blue-100 text-blue-900 px-3 py-1 rounded-full uppercase">
-                      {selectedCourse.title}
-                    </span>
-                    <h2 className="text-2xl font-bold text-gray-900 mt-2">{activeModule?.title || 'Module Training Session'}</h2>
+              <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+                {/* Lesson Stage Mode Switcher: Training Video vs Interactive 3D Daikin Parts */}
+                <div className="px-4 sm:px-6 py-3 bg-slate-900 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
+                  <div className="inline-flex items-center gap-1 p-1 bg-slate-950 rounded-xl border border-slate-800">
+                    <button
+                      type="button"
+                      onClick={() => setLessonStageTab('video')}
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
+                        lessonStageTab === 'video'
+                          ? 'bg-sky-600 text-white shadow-xs'
+                          : 'text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      <Play className="w-3.5 h-3.5" />
+                      Training Video
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLessonStageTab('3d-parts')}
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
+                        lessonStageTab === '3d-parts'
+                          ? 'bg-amber-500 text-slate-950 shadow-xs'
+                          : 'text-slate-300 hover:text-white'
+                      }`}
+                    >
+                      <Box className="w-3.5 h-3.5" />
+                      3D Equipment & Controls
+                    </button>
                   </div>
-                  <button 
-                    onClick={() => openQuiz(selectedCourse.id)}
-                    className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold rounded-xl shadow-md transition flex items-center gap-2">
-                    <Award className="w-5 h-5" /> Take Final Quiz & Get Certificate
-                  </button>
+                  <div className="text-[11px] font-mono text-slate-400">
+                    {lessonStageTab === '3d-parts'
+                      ? 'Full Daikin Units (VRV IV/X, AHU/FAHU, FXSQ, Screw Chiller) · Live 3D Controls & Parts'
+                      : 'Switch to 3D Equipment & Controls to operate live VRV, AHU/FAHU, FXSQ & Chiller units'}
+                  </div>
                 </div>
 
-                <div className="border-t border-gray-200 pt-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-3">Lesson Notes & Technical Specifications</h3>
-                  <p className="text-gray-700 leading-relaxed">
-                    This training module covers key installation sequences, foundational clearance requirements, and quality control verification points for Daikin equipment. Always ensure appropriate isolation, LOTO (Lockout/Tagout), and certified rigging supervision before commencing site work.
-                  </p>
+                {lessonStageTab === 'video' ? (
+                  <div className="p-4 sm:p-6 bg-slate-950">
+                    <AcademyVideoPlayer
+                      video={lessonVideo}
+                      title={currentMod?.title || selectedCourse.title}
+                      posterImage={selectedCourse.image}
+                      canGenerate={canGenerateVideos}
+                      currentUserId={currentUser?.id}
+                      currentUserName={currentUser?.name}
+                      onGenerateClick={() =>
+                        openVideoStudioForTarget({
+                          title: `${selectedCourse.category}: ${currentMod?.title || selectedCourse.title}`,
+                          category: selectedCourse.category,
+                          level: selectedCourse.level,
+                          prompt: `Technical Daikin HVAC installation lesson for ${selectedCourse.title} — ${currentMod?.title || 'Core Procedure'}. Demonstrate proper tools, pressure/torque verification, and mechanical safety.`,
+                          courseId: selectedCourse.id,
+                          moduleId: currentMod?.id || null,
+                          isCourseTrailer: !currentMod,
+                          mode: 'generate',
+                        })
+                      }
+                      onEditInStudioClick={(vid) =>
+                        openVideoStudioForTarget({ sourceVideoId: vid.id, mode: 'extend' })
+                      }
+                    />
+                  </div>
+                ) : (
+                  <div className="p-4 sm:p-6 bg-slate-950">
+                    <DaikinParts3DViewer
+                      courseCategory={selectedCourse.category}
+                      moduleTitle={currentMod?.title || selectedCourse.title}
+                    />
+                  </div>
+                )}
+
+                <div className="p-6 sm:p-8 space-y-6">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                      <div className="text-xs font-mono text-sky-700 font-semibold uppercase tracking-wider">
+                        {selectedCourse.category} · {selectedCourse.level} · {selectedCourse.duration}
+                      </div>
+                      <h2 className="text-2xl font-extrabold text-slate-900 mt-1">{currentMod?.title || 'Module Training Session'}</h2>
+                      <p className="text-xs font-mono text-slate-500 mt-1">
+                        Source: {selectedCourse.approvedSource}
+                      </p>
+                    </div>
+                    <button 
+                      onClick={() => openQuiz(selectedCourse.id)}
+                      className="px-5 py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold rounded-xl shadow-xs transition flex items-center gap-2 text-sm shrink-0">
+                      <Award className="w-4 h-4" /> Take Final Quiz & Get Certificate
+                    </button>
+                  </div>
+
+                  <div className="border-t border-slate-200 pt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div className="lg:col-span-2 space-y-3">
+                      <h3 className="text-base font-bold text-slate-900">Lesson Notes & Technical Specifications</h3>
+                      <p className="text-sm text-slate-700 leading-relaxed">
+                        {selectedCourse.description} Always ensure appropriate isolation, LOTO (Lockout/Tagout), calibrated nitrogen regulators, and certified rigging supervision before commencing site work.
+                      </p>
+                      {lessonStageTab === 'video' && (
+                        <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-wrap items-center justify-between gap-3">
+                          <div className="space-y-0.5">
+                            <div className="text-xs font-bold text-slate-900 inline-flex items-center gap-1.5">
+                              <Box className="w-3.5 h-3.5 text-amber-600" />
+                              Interactive 3D Daikin Component Showcase
+                            </div>
+                            <p className="text-xs text-slate-600">
+                              Inspect exploded Refnet Y-Joints, EKEXV Expansion Valves, 4.15 MPa Nitrogen Regulators, and Seismic Spring Isolators in 3D.
+                            </p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => setLessonStageTab('3d-parts')}
+                            className="px-3.5 py-2 bg-[#0B192C] hover:bg-slate-800 text-white text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
+                          >
+                            <Box className="w-3.5 h-3.5 text-amber-400" />
+                            Launch 3D Inspector
+                          </button>
+                        </div>
+                      )}
+                      {lessonVideo && (
+                        <div className="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700 space-y-1">
+                          <div className="font-bold text-slate-900">Video Teaching Brief</div>
+                          <p>{lessonVideo.description || lessonVideo.prompt}</p>
+                          <div className="font-mono text-[11px] text-slate-500 pt-1">
+                            Produced by {lessonVideo.createdByName} · {lessonVideo.cumulativeDurationSeconds || lessonVideo.durationSeconds}s · {lessonVideo.resolution}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">Course Modules</h4>
+                      <div className="space-y-1.5">
+                        {(selectedCourse.modules || []).map((m: any) => {
+                          const hasVid = academyVideos.some(
+                            (v) => v.id === m.videoId || (v.courseId === selectedCourse.id && v.moduleId === m.id)
+                          );
+                          const isActiveMod = currentMod?.id === m.id;
+                          return (
+                            <button
+                              key={m.id}
+                              type="button"
+                              onClick={() => setActiveModule(m)}
+                              className={`w-full text-left px-3 py-2.5 rounded-lg border text-xs transition ${
+                                isActiveMod
+                                  ? 'bg-[#0B192C] text-white border-[#0B192C] font-semibold'
+                                  : 'bg-slate-50 hover:bg-slate-100 text-slate-800 border-slate-200'
+                              }`}
+                            >
+                              <div className="line-clamp-1">{m.title}</div>
+                              <div className={`text-[10px] font-mono mt-0.5 ${isActiveMod ? 'text-slate-300' : 'text-slate-500'}`}>
+                                {m.duration} {hasVid ? '· Video Ready' : ''}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {currentView === 'ai-assistant' && (
           <div className="max-w-4xl mx-auto px-4 py-12">
@@ -1186,62 +1584,52 @@ export default function App() {
         )}
 
         {currentView === 'video-gen' && (
-          <div className="max-w-4xl mx-auto px-4 py-12">
-            <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-200 space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 bg-amber-500 text-gray-950 rounded-2xl flex items-center justify-center">
-                  <Video className="w-6 h-6" />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-extrabold text-gray-900">AI Video Generation from Text (Gemini Omni 1.2 Flash)</h2>
-                  <p className="text-sm text-gray-600">Generate high-definition 16:9 or 9:16 HVAC installation training clips and animations on demand.</p>
-                </div>
-              </div>
+          <VideoStudio
+            currentUser={currentUser}
+            authToken={authToken}
+            courses={courses}
+            videos={academyVideos}
+            prefill={studioPrefill}
+            onClearPrefill={() => setStudioPrefill(null)}
+            onVideosUpdated={() => fetchAcademyVideos(authToken)}
+            onCoursesUpdated={fetchCourses}
+            onOpenAuthModal={() => {
+              setAuthError(null);
+              setAuthModal('login');
+            }}
+            onOpenVideoLibrary={() => setCurrentView('video-library')}
+            onOpenAnalytics={() => setCurrentView('video-analytics')}
+            onOpenLesson={(courseId, moduleId) => {
+              const target = courses.find((c) => c.id === courseId);
+              if (target) {
+                setSelectedCourse(target);
+                const mod = moduleId
+                  ? target.modules?.find((m: any) => m.id === moduleId)
+                  : target.modules?.[0];
+                setActiveModule(mod || null);
+                setCurrentView('lesson-viewer');
+              }
+            }}
+          />
+        )}
 
-              <form onSubmit={handleGenerateVideo} className="space-y-4">
-                <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Video Training Prompt</label>
-                  <textarea 
-                    rows={3}
-                    value={videoPrompt}
-                    onChange={(e) => setVideoPrompt(e.target.value)}
-                    className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-800"
-                    placeholder="Describe the HVAC installation procedure to visualize..."
-                  />
-                </div>
-
-                <div className="flex items-center gap-4">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Aspect Ratio</label>
-                    <select 
-                      value={videoAspectRatio}
-                      onChange={(e) => setVideoAspectRatio(e.target.value)}
-                      className="px-4 py-2.5 bg-gray-100 border border-gray-300 rounded-xl text-sm font-semibold text-gray-800">
-                      <option value="16:9">16:9 (Landscape)</option>
-                      <option value="9:16">9:16 (Portrait)</option>
-                    </select>
-                  </div>
-                  <div className="pt-5">
-                    <button 
-                      type="submit"
-                      disabled={videoLoading}
-                      className="px-8 py-3 bg-blue-900 hover:bg-blue-950 text-white font-bold rounded-xl text-sm transition shadow-md disabled:opacity-50 flex items-center gap-2">
-                      {videoLoading ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Video className="w-4 h-4" />} Generate Video
-                    </button>
-                  </div>
-                </div>
-              </form>
-
-              {generatedVideoUrl && (
-                <div className="space-y-3 pt-4">
-                  <div className="text-xs font-bold text-blue-900 uppercase">Generated Training Video Clip</div>
-                  <div className={`mx-auto rounded-2xl overflow-hidden shadow-xl bg-black ${videoAspectRatio === '9:16' ? 'max-w-xs aspect-[9/16]' : 'max-w-2xl aspect-video'}`}>
-                    <video src={generatedVideoUrl} controls autoPlay loop className="w-full h-full object-cover"></video>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+        {currentView === 'video-analytics' && (
+          <VideoAnalyticsDashboard
+            currentUser={currentUser}
+            authToken={authToken}
+            onOpenAuthModal={() => {
+              setAuthError(null);
+              setAuthModal('login');
+            }}
+            onOpenVideoStudio={(videoId) =>
+              openVideoStudioForTarget(
+                videoId
+                  ? { sourceVideoId: videoId, mode: 'extend' }
+                  : { mode: 'generate' }
+              )
+            }
+            onOpenVideoLibrary={() => setCurrentView('video-library')}
+          />
         )}
 
         {currentView === 'manuals-library' && (
@@ -1312,60 +1700,357 @@ export default function App() {
           </div>
         )}
 
-        {currentView === 'video-library' && (
-          <div className="max-w-7xl mx-auto px-4 py-12 space-y-8">
-            <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-200">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-12 h-12 bg-amber-500 text-gray-950 rounded-2xl flex items-center justify-center">
-                  <Play className="w-6 h-6 fill-current" />
+        {currentView === 'video-library' && (() => {
+          const libraryVideos = academyVideos.filter(
+            (v) => v.showInLibrary !== false && (canGenerateVideos || v.published)
+          );
+          const filteredLibraryVideos = libraryVideos.filter(
+            (v) => videoLibraryCategory === 'All' || v.category === videoLibraryCategory
+          );
+          const libraryCategories = [
+            'All',
+            'Air-Cooled Chillers',
+            'VRV / VRF Systems',
+            'Fresh Air Handling Units (FAHU)',
+            'Chilled Water System Installation',
+            'HVAC Controls and BMS Interfaces',
+          ];
+
+          return (
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+              {/* Library Header */}
+              <div className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-5">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 bg-[#0B192C] text-amber-400 rounded-xl flex items-center justify-center shrink-0">
+                    <Play className="w-6 h-6 fill-current" />
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+                      Academy HVAC Training Video Library
+                    </h2>
+                    <p className="text-sm text-slate-600 mt-1">
+                      Original AI-generated technical demonstrations produced by Academy Instructors with Gemini Omni 1.2 Flash.
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h2 className="text-2xl font-extrabold text-gray-900">Professional HVAC Training Video Library</h2>
-                  <p className="text-sm text-gray-600">High-definition engineering masterclasses, rigging procedures, pressure testing, and brazing protocols.</p>
+
+                <div className="flex flex-wrap items-center gap-2.5 shrink-0">
+                  {canGenerateVideos ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setCurrentView('video-analytics')}
+                        className="px-4 py-2.5 bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 font-bold text-xs rounded-xl transition inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
+                      >
+                        <BarChart3 className="w-4 h-4 text-sky-600" />
+                        Video Analytics
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => openVideoStudioForTarget({ mode: 'generate' })}
+                        className="px-5 py-2.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs rounded-xl transition inline-flex items-center gap-2 shadow-xs whitespace-nowrap shrink-0"
+                      >
+                        <Sparkles className="w-4 h-4" />
+                        Generate / Batch-Produce Videos
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAuthError(null);
+                        setAuthModal('login');
+                      }}
+                      className="px-4 py-2.5 bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-bold text-xs rounded-xl transition inline-flex items-center gap-1.5 whitespace-nowrap shrink-0"
+                    >
+                      <Video className="w-3.5 h-3.5 text-sky-600" />
+                      Instructor Studio Sign In
+                    </button>
+                  )}
                 </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[
-                { title: 'Chiller Rigging & Anti-Vibration Spring Isolator Placement', duration: '45 mins', level: 'Advanced', videoId: '9Z9N4K8W2oQ', desc: 'Step-by-step masterclass on crane rigging, spreader bar load distribution, and seismic spring isolator leveling for EWAD-TZ chillers.' },
-                { title: 'VRV Nitrogen Pressure Testing at 4.15 MPa (601 psi)', duration: '55 mins', level: 'Intermediate', videoId: '8vO7xQ9K2w8', desc: 'Detailed 24-hour hold test procedure, regulator setup, and safety protocols for multi-port refnet piping.' },
-                { title: 'Copper Pipe Brazing with Nitrogen Purging & Flow Control', duration: '50 mins', level: 'Beginner', videoId: 'X5k12j9Q8w0', desc: 'Preventing internal copper oxidation and scale formation using regulated dry nitrogen sweep.' },
-                { title: 'Chilled Water Pump Alignment & Hydraulic Balancing', duration: '60 mins', level: 'Advanced', videoId: 'rK5W2x8V1j4', desc: 'Laser dial gauge shaft alignment, differential pressure bypass calibration, and balancing valves.' },
-                { title: 'Inverter Compressor Diagnostics & PCB Troubleshooting', duration: '50 mins', level: 'Advanced', videoId: 'Z5yR5e8lH3U', desc: 'Diagnosing inverter compressor IPM faults, error codes, and electronic expansion valve (EEV) operation.' }
-              ].map((vid, idx) => (
-                <div key={idx} className="bg-white rounded-3xl overflow-hidden shadow-md border border-gray-200 flex flex-col justify-between">
-                  <div>
-                    <div className="aspect-video bg-black relative">
-                      <iframe 
-                        className="w-full h-full"
-                        src={`https://www.youtube.com/embed/${vid.videoId}?controls=1`}
-                        title={vid.title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen>
-                      </iframe>
-                    </div>
-                    <div className="p-6 space-y-2">
-                      <div className="flex justify-between items-center text-xs font-semibold text-gray-500">
-                        <span className="bg-blue-100 text-blue-900 px-2.5 py-0.5 rounded-full font-bold">{vid.level}</span>
-                        <span>{vid.duration}</span>
-                      </div>
-                      <h4 className="font-bold text-gray-900 text-base">{vid.title}</h4>
-                      <p className="text-xs text-gray-600 line-clamp-2">{vid.desc}</p>
-                    </div>
+              {/* Segmented Library Workspace Switcher: All Teaching Videos vs Learning Paths */}
+              <div className="flex flex-wrap items-center justify-between gap-4 border-b border-slate-200 pb-4">
+                <div className="inline-flex items-center gap-1 p-1 bg-slate-100 rounded-xl border border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setVideoLibraryTab('all')}
+                    className={`px-4 py-2 text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
+                      videoLibraryTab === 'all'
+                        ? 'bg-white text-slate-900 shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <Play className="w-3.5 h-3.5 text-amber-500" />
+                    All Teaching Videos
+                    <span className="font-mono tabular-nums text-[11px] text-slate-500">
+                      ({libraryVideos.length})
+                    </span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setVideoLibraryTab('paths')}
+                    className={`px-4 py-2 text-xs font-bold rounded-lg transition inline-flex items-center gap-1.5 whitespace-nowrap shrink-0 ${
+                      videoLibraryTab === 'paths'
+                        ? 'bg-white text-slate-900 shadow-xs'
+                        : 'text-slate-600 hover:text-slate-900'
+                    }`}
+                  >
+                    <ListVideo className="w-3.5 h-3.5 text-sky-600" />
+                    Playlists & Learning Paths
+                    {learningPathCount > 0 && (
+                      <span className="font-mono tabular-nums text-[11px] text-slate-500">
+                        ({learningPathCount})
+                      </span>
+                    )}
+                  </button>
+                </div>
+
+                <div className="text-xs text-slate-600">
+                  {videoLibraryTab === 'paths'
+                    ? 'Custom training playlists grouped by installation workflow & linked Daikin installation manuals.'
+                    : 'Browse individual teaching clips or switch to Playlists & Learning Paths for workflow sequences.'}
+                </div>
+              </div>
+
+              {videoLibraryTab === 'paths' ? (
+                <LearningPathsPanel
+                  videos={libraryVideos}
+                  courses={courses}
+                  currentUser={currentUser}
+                  authToken={authToken}
+                  canManage={canGenerateVideos}
+                  onOpenVideoStudio={(videoId) =>
+                    openVideoStudioForTarget(
+                      videoId
+                        ? { sourceVideoId: videoId, mode: 'extend' }
+                        : { mode: 'generate' }
+                    )
+                  }
+                  onOpenLesson={(courseId, moduleId) => {
+                    const target = courses.find((c) => c.id === courseId);
+                    if (target) {
+                      setSelectedCourse(target);
+                      const mod = moduleId
+                        ? target.modules?.find((m: any) => m.id === moduleId)
+                        : target.modules?.[0];
+                      setActiveModule(mod || null);
+                      setCurrentView('lesson-viewer');
+                    }
+                  }}
+                  onPathCountChange={setLearningPathCount}
+                />
+              ) : (
+                <>
+              {/* Category Filter Strip */}
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {libraryCategories.map((cat) => (
+                  <button
+                    key={cat}
+                    type="button"
+                    onClick={() => setVideoLibraryCategory(cat)}
+                    className={`px-3.5 py-2 text-xs font-bold rounded-lg whitespace-nowrap transition border ${
+                      videoLibraryCategory === cat
+                        ? 'bg-[#0B192C] text-white border-[#0B192C]'
+                        : 'bg-white text-slate-700 border-slate-200 hover:bg-slate-50'
+                    }`}
+                  >
+                    {cat}
+                  </button>
+                ))}
+              </div>
+
+              {/* Published Academy Videos Grid */}
+              {filteredLibraryVideos.length > 0 && (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-lg font-bold text-slate-900">
+                      Published Teaching Videos ({filteredLibraryVideos.length})
+                    </h3>
                   </div>
-                  <div className="p-6 pt-0">
-                    <button 
-                      onClick={() => alert(`Selected training masterclass: ${vid.title}`)}
-                      className="w-full py-2.5 bg-blue-900 hover:bg-blue-950 text-white font-bold rounded-xl text-xs transition shadow-xs flex items-center justify-center gap-1.5">
-                      <Play className="w-4 h-4 fill-current" /> Play Training Masterclass
-                    </button>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredLibraryVideos.map((vid) => {
+                      const boundCourse = courses.find((c) => c.id === vid.courseId);
+                      return (
+                        <div
+                          key={vid.id}
+                          className="bg-white rounded-2xl overflow-hidden border border-slate-200 flex flex-col justify-between shadow-xs"
+                        >
+                          <div>
+                            <div className="p-3 bg-slate-950">
+                              <AcademyVideoPlayer
+                                video={vid}
+                                title={vid.title}
+                                compact
+                                canGenerate={canGenerateVideos}
+                                currentUserId={currentUser?.id}
+                                currentUserName={currentUser?.name}
+                                onEditInStudioClick={(v) =>
+                                  openVideoStudioForTarget({ sourceVideoId: v.id, mode: 'extend' })
+                                }
+                              />
+                            </div>
+                            <div className="p-5 space-y-2">
+                              <div className="text-[11px] font-mono text-slate-500">
+                                {vid.category} · {vid.technicalSkillLevel || vid.level} · {vid.createdByName}
+                              </div>
+                              <h4 className="font-bold text-slate-900 text-base leading-snug">
+                                {vid.title}
+                              </h4>
+                              <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                                {vid.description || vid.prompt}
+                              </p>
+                              {((vid.requiredTools?.length || 0) > 0 || (vid.safetyPrerequisites?.length || 0) > 0) && (
+                                <div className="pt-2 border-t border-slate-100 space-y-1 text-[11px] text-slate-600">
+                                  {(vid.requiredTools?.length || 0) > 0 && (
+                                    <div className="truncate">
+                                      <span className="font-semibold text-slate-800">Tools ({vid.requiredTools!.length}):</span>{' '}
+                                      {vid.requiredTools!.slice(0, 2).join(', ')}
+                                      {vid.requiredTools!.length > 2 ? ` +${vid.requiredTools!.length - 2} more` : ''}
+                                    </div>
+                                  )}
+                                  {(vid.safetyPrerequisites?.length || 0) > 0 && (
+                                    <div className="truncate text-amber-800">
+                                      <span className="font-semibold">Safety ({vid.safetyPrerequisites!.length}):</span>{' '}
+                                      {vid.safetyPrerequisites![0]}
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {boundCourse && (
+                            <div className="px-5 pb-5 pt-0">
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setSelectedCourse(boundCourse);
+                                  const mod = vid.moduleId
+                                    ? boundCourse.modules?.find((m: any) => m.id === vid.moduleId)
+                                    : boundCourse.modules?.[0];
+                                  setActiveModule(mod || null);
+                                  setCurrentView('lesson-viewer');
+                                }}
+                                className="w-full py-2.5 bg-[#0B192C] hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5"
+                              >
+                                <BookOpen className="w-3.5 h-3.5 text-amber-400" />
+                                Open in {boundCourse.category} Lesson
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-              ))}
+              )}
+
+              {/* Core Daikin Masterclass Curriculum Slots (Zero Broken YouTube Embeds) */}
+              <div className="space-y-4">
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900">
+                    Core Daikin HVAC Masterclass Curriculum
+                  </h3>
+                  <p className="text-xs text-slate-600 mt-0.5">
+                    {canGenerateVideos
+                      ? 'Click Generate Teaching Video on any slot below to produce an authentic Gemini Omni 1.2 Flash demonstration and publish it directly to the library.'
+                      : 'Core field installation masterclasses produced by Academy Instructors.'}
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {MASTERCLASS_CURRICULUM_SLOTS.filter(
+                    (slot) => videoLibraryCategory === 'All' || slot.category === videoLibraryCategory
+                  ).map((slot) => {
+                    const matchedVideo =
+                      academyVideos.find(
+                        (v) =>
+                          (canGenerateVideos || v.published) &&
+                          v.title.toLowerCase() === slot.title.toLowerCase()
+                      ) || null;
+
+                    return (
+                      <div
+                        key={slot.id}
+                        className="bg-white rounded-2xl overflow-hidden border border-slate-200 flex flex-col justify-between shadow-xs"
+                      >
+                        <div>
+                          <div className="p-3 bg-slate-950">
+                            <AcademyVideoPlayer
+                              video={matchedVideo}
+                              title={slot.title}
+                              subtitle={slot.desc}
+                              compact
+                              canGenerate={canGenerateVideos}
+                              currentUserId={currentUser?.id}
+                              currentUserName={currentUser?.name}
+                              onGenerateClick={() =>
+                                openVideoStudioForTarget({
+                                  title: slot.title,
+                                  description: slot.desc,
+                                  prompt: slot.prompt,
+                                  category: slot.category,
+                                  level: slot.level,
+                                  courseId: null,
+                                  moduleId: null,
+                                  mode: 'generate',
+                                })
+                              }
+                              onEditInStudioClick={(v) =>
+                                openVideoStudioForTarget({ sourceVideoId: v.id, mode: 'extend' })
+                              }
+                            />
+                          </div>
+                          <div className="p-5 space-y-2">
+                            <div className="text-[11px] font-mono text-slate-500">
+                              {slot.category} · {slot.level} ·{' '}
+                              {matchedVideo ? 'Published AI Video' : 'Masterclass Slot'}
+                            </div>
+                            <h4 className="font-bold text-slate-900 text-base leading-snug">
+                              {slot.title}
+                            </h4>
+                            <p className="text-xs text-slate-600 line-clamp-2 leading-relaxed">
+                              {slot.desc}
+                            </p>
+                          </div>
+                        </div>
+
+                        {canGenerateVideos && !matchedVideo && (
+                          <div className="px-5 pb-5 pt-0">
+                            <button
+                              type="button"
+                              onClick={() =>
+                                openVideoStudioForTarget({
+                                  title: slot.title,
+                                  description: slot.desc,
+                                  prompt: slot.prompt,
+                                  category: slot.category,
+                                  level: slot.level,
+                                  courseId: null,
+                                  moduleId: null,
+                                  mode: 'generate',
+                                })
+                              }
+                              className="w-full py-2.5 bg-[#0B192C] hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition flex items-center justify-center gap-1.5"
+                            >
+                              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                              Produce Masterclass in Studio
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+                </>
+              )}
             </div>
-          </div>
-        )}
+          );
+        })()}
 
         {currentView === 'pricing' && (
           <div className="max-w-7xl mx-auto px-4 py-16">
@@ -1451,7 +2136,7 @@ export default function App() {
                 <h2 className="text-3xl font-extrabold text-gray-900">Welcome back, {studentData.user?.name}</h2>
                 <p className="text-gray-600 mt-1">Continue your Daikin HVAC installation training and review your completion certificates.</p>
               </div>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4 items-center">
                 <div className="bg-blue-50 border border-blue-200 px-4 py-3 rounded-2xl text-center">
                   <div className="text-xs text-blue-900 font-bold uppercase">Subscription Tier</div>
                   <div className="text-lg font-extrabold text-blue-950 uppercase mt-0.5">{studentData.user?.subscriptionTier}</div>
@@ -1460,6 +2145,14 @@ export default function App() {
                   <div className="text-xs text-emerald-900 font-bold uppercase">Certificates Earned</div>
                   <div className="text-lg font-extrabold text-emerald-950 mt-0.5">{studentData.certificates.length}</div>
                 </div>
+                <button 
+                  onClick={() => {
+                    const userId = studentData.user?.id || 'usr_student_1';
+                    window.open(`/api/student/${userId}/progress-report-pdf`, '_blank');
+                  }}
+                  className="px-5 py-3 bg-blue-900 hover:bg-blue-950 text-white font-bold rounded-2xl text-sm transition shadow-md flex items-center gap-2">
+                  <Download className="w-4 h-4" /> Download Progress Report
+                </button>
               </div>
             </div>
 
@@ -1490,6 +2183,39 @@ export default function App() {
                     </div>
                   );
                 })}
+              </div>
+            </div>
+
+            {/* Course Progress Bar Chart Comparison */}
+            <div className="bg-white rounded-3xl p-8 shadow-md border border-gray-200 space-y-6">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900">Enrolled Courses Progress vs Target (100%)</h3>
+                  <p className="text-xs text-gray-500 mt-1">Visualizing your active learning milestones across all enrolled Daikin installation courses.</p>
+                </div>
+              </div>
+              <div className="h-72 w-full">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={(studentData?.enrollments || []).map((enr: any) => {
+                      const course = courses.find(c => c.id === enr.courseId);
+                      return {
+                        name: course ? (course.title.length > 22 ? course.title.substring(0, 22) + '...' : course.title) : 'Course',
+                        progress: enr.progress,
+                        target: 100
+                      };
+                    })}
+                    margin={{ top: 20, right: 30, left: 0, bottom: 40 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
+                    <XAxis dataKey="name" tick={{ fontSize: 11 }} angle={-15} textAnchor="end" interval={0} />
+                    <YAxis domain={[0, 100]} unit="%" tick={{ fontSize: 11 }} />
+                    <Tooltip formatter={(value: any) => [`${value}%`, '']} />
+                    <Legend />
+                    <Bar dataKey="progress" name="Current Progress" fill="#1E3A8A" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="target" name="Completion Target (100%)" fill="#93C5FD" radius={[6, 6, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </div>
 
@@ -1633,61 +2359,101 @@ export default function App() {
       {/* Auth Modal */}
       {authModal && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
-          <div className="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative">
-            <button onClick={() => setAuthModal(null)} className="absolute top-6 right-6 text-gray-400 hover:text-gray-600">
-              <X className="w-6 h-6" />
+          <div className="bg-white rounded-2xl max-w-md w-full p-7 shadow-2xl relative border border-slate-200">
+            <button onClick={() => setAuthModal(null)} className="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
+              <X className="w-5 h-5" />
             </button>
             
-            <h3 className="text-2xl font-extrabold text-gray-900 mb-2">
+            <h3 className="text-2xl font-extrabold text-slate-900 mb-1">
               {authModal === 'login' ? 'Sign In to Academy' : 'Create Free Student Account'}
             </h3>
-            <p className="text-sm text-gray-600 mb-6">Access trailers, courses, quizzes, and certificates.</p>
+            <p className="text-xs text-slate-600 mb-5">
+              Sign in as Admin or Instructor to generate & publish AI teaching videos, or as a Student to watch courses.
+            </p>
+
+            {authError && (
+              <div className="mb-4 px-3.5 py-2.5 bg-red-50 border border-red-200 rounded-xl text-xs text-red-800 flex items-start gap-2">
+                <AlertTriangle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                <span>{authError}</span>
+              </div>
+            )}
+
+            {authModal === 'login' && (
+              <div className="mb-5 p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">
+                  Quick Academy Role Sign-In
+                </div>
+                <div className="grid grid-cols-3 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => performLoginWithEmail('admin@daikin-hvac-academy.com', 'password123')}
+                    className="py-2 px-2 bg-[#0B192C] hover:bg-slate-800 text-white font-bold text-xs rounded-lg transition"
+                  >
+                    Admin
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => performLoginWithEmail('instructor@daikin-hvac-academy.com', 'password123')}
+                    className="py-2 px-2 bg-sky-700 hover:bg-sky-800 text-white font-bold text-xs rounded-lg transition"
+                  >
+                    Instructor
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => performLoginWithEmail('student@daikin-hvac-academy.com', 'password123')}
+                    className="py-2 px-2 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold text-xs rounded-lg transition"
+                  >
+                    Student
+                  </button>
+                </div>
+              </div>
+            )}
 
             <form onSubmit={authModal === 'login' ? handleLogin : handleRegister} className="space-y-4">
               {authModal === 'register' && (
                 <div>
-                  <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Full Name</label>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Full Name</label>
                   <input 
                     type="text" 
                     required 
                     value={authName}
                     onChange={(e) => setAuthName(e.target.value)}
                     placeholder="e.g. Tariq Bin Ziyad"
-                    className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-800"
+                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                   />
                 </div>
               )}
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Email Address</label>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Email Address</label>
                 <input 
                   type="email" 
                   required 
                   value={authEmail}
                   onChange={(e) => setAuthEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-800"
+                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Password</label>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Password</label>
                 <input 
                   type="password" 
                   required 
                   value={authPassword}
                   onChange={(e) => setAuthPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-100 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-blue-800"
+                  className="w-full px-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-sky-700"
                 />
               </div>
               <button 
                 type="submit"
-                className="w-full py-3.5 bg-blue-900 hover:bg-blue-950 text-white font-bold rounded-xl text-sm transition shadow-md">
+                className="w-full py-3 bg-[#0B192C] hover:bg-slate-800 text-white font-bold rounded-xl text-sm transition shadow-xs">
                 {authModal === 'login' ? 'Sign In' : 'Register Free Account'}
               </button>
             </form>
 
-            <div className="mt-4 pt-4 border-t border-gray-200">
+            <div className="mt-4 pt-4 border-t border-slate-200">
               <button 
                 onClick={handleGoogleSignIn}
-                className="w-full py-3 bg-white hover:bg-gray-50 text-gray-800 font-bold rounded-xl text-sm border border-gray-300 transition shadow-xs flex items-center justify-center gap-2">
+                className="w-full py-2.5 bg-white hover:bg-slate-50 text-slate-800 font-bold rounded-xl text-sm border border-slate-300 transition flex items-center justify-center gap-2">
                 <svg className="w-5 h-5" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                   <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
@@ -1928,15 +2694,19 @@ export default function App() {
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Trailer / Preview Video URL</label>
-                <input 
-                  type="text" 
-                  required
+                <label className="block text-xs font-bold text-gray-700 uppercase mb-1">Course Trailer Video (AI Studio Clip)</label>
+                <select
                   value={adminCourseForm.trailerUrl}
                   onChange={(e) => setAdminCourseForm({ ...adminCourseForm, trailerUrl: e.target.value })}
-                  placeholder="https://www.youtube.com/embed/..."
-                  className="w-full px-4 py-2.5 bg-gray-100 border border-gray-300 rounded-xl text-sm font-mono text-xs"
-                />
+                  className="w-full px-4 py-2.5 bg-gray-100 border border-gray-300 rounded-xl text-sm font-medium"
+                >
+                  <option value="">None (Assign later from AI Video Studio)</option>
+                  {academyVideos.map((v) => (
+                    <option key={v.id} value={v.streamUrl}>
+                      {v.title} ({v.cumulativeDurationSeconds || v.durationSeconds}s · {v.aspectRatio})
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div>
